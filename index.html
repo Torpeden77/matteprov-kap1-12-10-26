@@ -137,6 +137,14 @@ svg .boxC{fill:var(--green-soft);stroke:var(--green);stroke-width:1.5}
 .grade{font-family:var(--f-hand);font-size:1.6rem;color:var(--red);align-self:center;margin-left:auto}
 
 section[role="tabpanel"]{display:grid;gap:18px}
+.presgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.pres{display:grid;gap:10px;background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:18px}
+.pres .num{font:800 2.2rem var(--f-display);color:var(--blue);line-height:1}
+.pres h3{font-size:1.1rem}
+.pres .open{display:block;text-align:center;text-decoration:none;font:700 1rem var(--f-display);background:var(--ink);color:var(--paper);padding:12px 14px;border-radius:6px}
+.pres .open:hover,.pres .open:focus-visible{background:var(--blue)}
+.pres .dl{font-size:.88rem;color:var(--muted)}
+.pres .dl a{color:var(--blue)}
 .day{background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:18px;display:grid;gap:12px}
 .day h3{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
 .day h3 small{font:400 .9rem var(--f-body);color:var(--muted)}
@@ -188,6 +196,7 @@ table.box td.sq{background:var(--blue-soft)} table.box td.k{background:var(--gre
   <button role="tab" id="t-ovningar" aria-controls="ovningar" aria-selected="false">Övningar</button>
   <button role="tab" id="t-quiz" aria-controls="quiz" aria-selected="false">Quiz</button>
   <button role="tab" id="t-testprov" aria-controls="testprov" aria-selected="false">Testprov</button>
+  <button role="tab" id="t-pres" aria-controls="presentationer" aria-selected="false">Presentationer</button>
 </nav>
 
 <!-- ======================= ÖVERSIKT ======================= -->
@@ -778,6 +787,25 @@ table.box td.sq{background:var(--blue-soft)} table.box td.k{background:var(--gre
   <div class="score" id="quizScore">0 / 0 rätt</div>
 </section>
 
+<!-- ======================= PRESENTATIONER ======================= -->
+<section role="tabpanel" id="presentationer" aria-labelledby="t-pres" hidden>
+  <p class="intro">Lärarens genomgångar för kapitel 1. Presentationen öppnas i en ny flik och går att bläddra i direkt i mobilen eller datorn.</p>
+  <div class="presgrid">
+    <div class="pres"><span class="num">1.1</span><h3>Repetition räkneregler</h3><p class="muted">Negativa tal, bråk, algebra, ekvationer<br>s. 10–25 · 34 bilder</p>
+      <a class="open" href="https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fmatteprov-kap1-12-10-26.vercel.app%2Fpresentationer%2FMatematik%25202b%2520Kapitel%25201.1.pptx" target="_blank" rel="noopener">Öppna presentationen</a>
+      <p class="dl">eller <a href="https://matteprov-kap1-12-10-26.vercel.app/presentationer/Matematik%202b%20Kapitel%201.1.pptx" target="_blank" rel="noopener">ladda ner PowerPoint-filen</a></p></div>
+    <div class="pres"><span class="num">1.2</span><h3>Linjära modeller</h3><p class="muted">Räta linjen, parallella och vinkelräta linjer, regression<br>s. 26–40 · 24 bilder</p>
+      <a class="open" href="https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fmatteprov-kap1-12-10-26.vercel.app%2Fpresentationer%2FMatematik%25202b%2520Kapitel%25201.2.pptx" target="_blank" rel="noopener">Öppna presentationen</a>
+      <p class="dl">eller <a href="https://matteprov-kap1-12-10-26.vercel.app/presentationer/Matematik%202b%20Kapitel%201.2.pptx" target="_blank" rel="noopener">ladda ner PowerPoint-filen</a></p></div>
+    <div class="pres"><span class="num">1.3</span><h3>Linjära ekvationssystem</h3><p class="muted">Grafiskt, substitution, addition, problemlösning<br>s. 43–58 · 49 bilder</p>
+      <a class="open" href="https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fmatteprov-kap1-12-10-26.vercel.app%2Fpresentationer%2FMatematik%25202b%2520Kapitel%25201.3.pptx" target="_blank" rel="noopener">Öppna presentationen</a>
+      <p class="dl">eller <a href="https://matteprov-kap1-12-10-26.vercel.app/presentationer/Matematik%202b%20Kapitel%201.3.pptx" target="_blank" rel="noopener">ladda ner PowerPoint-filen</a></p></div>
+    <div class="pres"><span class="num">1.4</span><h3>Uttryck och parenteser</h3><p class="muted">Parentesmultiplikation, kvadrerings- och konjugatregeln, faktorisering<br>s. 68–77 · 29 bilder</p>
+      <a class="open" href="https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fmatteprov-kap1-12-10-26.vercel.app%2Fpresentationer%2FMatematik%25202b%2520Kapitel%25201.4.pptx" target="_blank" rel="noopener">Öppna presentationen</a>
+      <p class="dl">eller <a href="https://matteprov-kap1-12-10-26.vercel.app/presentationer/Matematik%202b%20Kapitel%201.4.pptx" target="_blank" rel="noopener">ladda ner PowerPoint-filen</a></p></div>
+  </div>
+</section>
+
 <!-- ======================= TESTPROV ======================= -->
 <section role="tabpanel" id="testprov" aria-labelledby="t-testprov" hidden>
   <p class="intro">Uppgifter på E- och C-nivå. Gör provet på papper utan räknare i 25 minuter. Rätta sedan med facit och bocka i de uppgifter du klarade.</p>
@@ -1063,7 +1091,7 @@ function tally(){
 
 // ---- Starta på sparad flik / ankare ----
 (function(){const h=location.hash.slice(1);let t='oversikt';try{t=localStorage.getItem('mk1tab')||t}catch(e){}
-  if(['oversikt','inlasning','ovningar','quiz','testprov'].includes(h))t=h;show(t);
+  if(['oversikt','inlasning','ovningar','quiz','testprov','presentationer'].includes(h))t=h;show(t);
   if(/^a\d+$/.test(h))show('inlasning',h);})();
 </script>
 </body>

@@ -1,0 +1,1070 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Matteprov Kap.1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Caveat:wght@500;700&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+/* Layout: ett rutat mattehäfte – flikar överst, blyertsanteckningar i marginalen, rödpenna för rättning */
+:root{
+  --paper:#F5F7FB; --grid:rgba(34,83,195,.075); --card:#FFFFFF; --ink:#17223B; --muted:#56637E;
+  --line:#D6DDEA; --blue:#2253C3; --blue-soft:rgba(34,83,195,.09); --red:#C2362B; --red-soft:rgba(194,54,43,.09);
+  --green:#1C7A4B; --green-soft:rgba(28,122,75,.1); --hl:#FFEF9A; --pencil:#4B556B;
+  --f-display:"Archivo",system-ui,sans-serif; --f-body:"Atkinson Hyperlegible",system-ui,sans-serif;
+  --f-math:"STIX Two Text","Cambria Math","Times New Roman",serif; --f-hand:"Caveat","Comic Sans MS",cursive;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0F1522; --grid:rgba(125,162,255,.06); --card:#172033; --ink:#E5EAF4; --muted:#9BA7C0;
+  --line:#2B3651; --blue:#86A8FF; --blue-soft:rgba(134,168,255,.12); --red:#FF8478; --red-soft:rgba(255,132,120,.12);
+  --green:#62D59D; --green-soft:rgba(98,213,157,.12); --hl:rgba(255,222,90,.22); --pencil:#B3BCD0; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0F1522; --grid:rgba(125,162,255,.06); --card:#172033; --ink:#E5EAF4; --muted:#9BA7C0;
+  --line:#2B3651; --blue:#86A8FF; --blue-soft:rgba(134,168,255,.12); --red:#FF8478; --red-soft:rgba(255,132,120,.12);
+  --green:#62D59D; --green-soft:rgba(98,213,157,.12); --hl:rgba(255,222,90,.22); --pencil:#B3BCD0; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:17px/1.6 var(--f-body);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:22px 22px;}
+.wrap{max-width:900px;margin:0 auto;padding-inline:18px;padding-block:28px 80px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.15;margin:0}
+h1{font-size:clamp(2rem,6vw,3rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:1.55rem;font-weight:800}
+h3{font-size:1.12rem;font-weight:700}
+p{margin:0}
+.m{font-family:var(--f-math);font-size:1.08em;white-space:nowrap}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;font-family:var(--f-math);line-height:1.05;margin:0 .1em;font-size:.95em}
+.fr>span:first-child{border-bottom:1.3px solid currentColor;padding:0 .2em}
+.fr>span{padding:0 .2em}
+.hl{background:linear-gradient(transparent 55%,var(--hl) 55%);padding:0 .1em}
+.hand{font-family:var(--f-hand);font-size:1.35rem;line-height:1.25;color:var(--pencil)}
+.muted{color:var(--muted)}
+.eyebrow{font-family:var(--f-display);font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+
+header.top{display:grid;gap:10px;margin-bottom:22px}
+.countdown{font-family:var(--f-hand);font-size:1.5rem;color:var(--red);transform:rotate(-1.5deg);display:inline-block}
+
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);display:flex;gap:6px;flex-wrap:wrap;padding-block:10px;border-bottom:2px solid var(--ink);margin-bottom:26px}
+nav.tabs button{font:700 .95rem var(--f-display);border:1.5px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:6px;cursor:pointer}
+nav.tabs button[aria-selected="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+button:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+
+/* checklist */
+.check{display:grid;gap:4px;background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:16px 18px}
+.check .grp{font:700 .8rem var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+.check label{display:flex;gap:10px;align-items:baseline;cursor:pointer;padding:3px 0}
+.check input{accent-color:var(--green);width:18px;height:18px;flex:none;transform:translateY(3px)}
+.check .pg{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.85rem;min-width:62px}
+.check a{color:var(--ink);text-decoration:none;border-bottom:1px dotted var(--muted)}
+.prog{height:8px;border-radius:4px;background:var(--line);overflow:hidden;margin-top:6px}
+.prog>div{height:100%;background:var(--green);width:0;transition:width .3s}
+
+/* inläsning */
+.topic{background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:22px 22px 20px;display:grid;gap:14px;margin-bottom:22px;scroll-margin-top:80px}
+.topic header{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline}
+.topic .pages{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.rule{border-left:4px solid var(--blue);background:var(--blue-soft);padding:10px 14px;border-radius:0 6px 6px 0}
+.rule b{font-family:var(--f-display)}
+.memo{border:1.5px dashed var(--pencil);border-radius:8px;padding:10px 14px;display:flex;gap:12px;align-items:flex-start}
+.memo .tag{font:700 .7rem var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--pencil);white-space:nowrap;padding-top:6px}
+.ex{display:grid;gap:4px;padding:10px 0 0;border-top:1px solid var(--line)}
+.ex .lbl{font:700 .78rem var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.steps{font-family:var(--f-math);font-size:1.05rem;display:grid;grid-template-columns:auto 1fr;gap:2px 18px;overflow-x:auto}
+.steps span:nth-child(2n){color:var(--pencil);font-family:var(--f-hand);font-size:1.15rem}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.two>*{min-width:0}
+table.t{border-collapse:collapse;font-size:.95rem;width:100%}
+table.t th,table.t td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+table.t th{font-family:var(--f-display);background:var(--blue-soft)}
+.tablewrap{overflow-x:auto}
+figure{margin:0;display:grid;gap:6px;justify-items:center}
+figcaption{font-size:.85rem;color:var(--muted);text-align:center}
+svg{max-width:100%;height:auto;overflow:visible}
+svg .gl{stroke:var(--grid);stroke-width:1}
+svg .gl2{stroke:var(--line);stroke-width:1}
+svg .ax{stroke:var(--ink);stroke-width:1.5}
+svg .l1{stroke:var(--blue);stroke-width:3;fill:none}
+svg .l2{stroke:var(--red);stroke-width:3;fill:none}
+svg .st{stroke:var(--green);stroke-width:2.5;fill:none;stroke-dasharray:5 4}
+svg text{fill:var(--ink);font-family:var(--f-body);font-size:12px}
+svg .tb{fill:var(--blue)} svg .tr{fill:var(--red)} svg .tg{fill:var(--green)}
+svg .dot{fill:var(--ink)} svg .dotb{fill:var(--blue)} svg .ink{fill:var(--ink)} svg .ah{fill:var(--blue)} svg .muted{fill:var(--muted)}
+svg .boxA{fill:var(--blue-soft);stroke:var(--blue);stroke-width:1.5}
+svg .boxB{fill:var(--red-soft);stroke:var(--red);stroke-width:1.5}
+svg .boxC{fill:var(--green-soft);stroke:var(--green);stroke-width:1.5}
+
+/* övningar */
+.ovn{display:grid;gap:12px}
+.ovn h3{margin-top:18px}
+.q{background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:14px 16px;display:grid;gap:8px}
+.q .qt{display:flex;gap:10px}
+.q .n{font:800 .9rem var(--f-display);color:var(--blue);min-width:28px;font-variant-numeric:tabular-nums}
+.q .row{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font:700 .85rem var(--f-display);border:1.5px solid var(--ink);background:transparent;color:var(--ink);padding:5px 11px;border-radius:5px;cursor:pointer}
+.btn:hover{background:var(--blue-soft)}
+.btn.solid{background:var(--ink);color:var(--paper)}
+.ans{border-left:3px solid var(--green);background:var(--green-soft);padding:8px 12px;border-radius:0 6px 6px 0}
+.sol{border-left:3px solid var(--pencil);padding:8px 12px;font-size:.98rem}
+.sol .steps{font-size:1rem}
+
+/* quiz */
+.quiz{display:grid;gap:14px}
+.qq{background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:16px;display:grid;gap:10px}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+.opt{font:inherit;text-align:left;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:6px;padding:9px 12px;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--blue)}
+.opt.right{border-color:var(--green);background:var(--green-soft)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft);text-decoration:line-through;text-decoration-color:var(--red)}
+.opt:disabled{cursor:default}
+.why{font-size:.95rem}
+.why b.ok{color:var(--green)} .why b.no{color:var(--red)}
+.score{position:sticky;bottom:12px;justify-self:end;background:var(--ink);color:var(--paper);font:700 1rem var(--f-display);padding:8px 14px;border-radius:6px;font-variant-numeric:tabular-nums}
+
+/* testprov */
+.lvl{display:inline-block;font:800 .75rem var(--f-display);letter-spacing:.06em;padding:2px 8px;border-radius:4px;border:1.5px solid currentColor}
+.lvl.E{color:var(--green)} .lvl.C{color:var(--blue)} .lvl.A{color:var(--red)}
+.task{background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:16px;display:grid;gap:10px}
+.task header{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.task .p{margin-left:auto;font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.task .self{display:flex;gap:8px;align-items:center;font-size:.9rem;color:var(--muted)}
+.task .self input{accent-color:var(--green);width:18px;height:18px}
+.tally{display:flex;flex-wrap:wrap;gap:10px 22px;background:var(--card);border:2px solid var(--ink);border-radius:8px;padding:14px 18px;font-variant-numeric:tabular-nums}
+.tally div{display:grid}
+.tally b{font:800 1.5rem var(--f-display)}
+.grade{font-family:var(--f-hand);font-size:1.6rem;color:var(--red);align-self:center;margin-left:auto}
+
+section[role="tabpanel"]{display:grid;gap:18px}
+.day{background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:18px;display:grid;gap:12px}
+.day h3{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.day h3 small{font:400 .9rem var(--f-body);color:var(--muted)}
+.tl{display:flex;height:30px;border-radius:6px;overflow:hidden;border:1.5px solid var(--ink)}
+.tl span{display:flex;align-items:center;justify-content:center;font:700 .72rem var(--f-display);color:var(--ink);border-right:1.5px solid var(--ink);min-width:0;overflow:hidden;white-space:nowrap}
+.tl span:last-child{border-right:0}
+.c11{background:var(--blue-soft)} .c12{background:var(--green-soft)} .c13{background:var(--red-soft)} .c14{background:var(--hl)} .cp{background:repeating-linear-gradient(45deg,transparent 0 5px,var(--line) 5px 7px)}
+.blocks{display:grid;gap:6px}
+.blk{display:grid;grid-template-columns:auto 76px 1fr;gap:10px;align-items:start;padding:8px 0;border-top:1px solid var(--line)}
+.blk input{accent-color:var(--green);width:20px;height:20px;margin-top:2px}
+.blk .tm{font:700 .85rem var(--f-display);font-variant-numeric:tabular-nums;color:var(--muted);padding-top:2px}
+.blk .sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;border:1px solid var(--ink)}
+.blk a{color:var(--blue)}
+.blk.pause{color:var(--muted);font-style:italic}
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-family:var(--f-math);font-size:1.12rem}
+.flow .box{border:2px solid var(--blue);border-radius:6px;padding:6px 12px;background:var(--blue-soft)}
+.flow .arrow{font-family:var(--f-hand);font-size:1.3rem;color:var(--pencil)}
+.ins{background:var(--blue-soft);border-bottom:2.5px solid var(--blue);padding:0 .15em}
+.stack{display:inline-grid;grid-template-columns:repeat(6,auto);gap:2px 10px;font-family:var(--f-math);font-size:1.15rem;justify-items:end;padding:10px 16px;background:var(--paper);border:1.5px solid var(--line);border-radius:6px}
+.stack .sum{border-top:2px solid var(--ink);padding-top:2px;justify-self:stretch;text-align:right}
+.cancel{color:var(--red);text-decoration:line-through;text-decoration-thickness:2px}
+table.box{border-collapse:collapse;font-family:var(--f-math);font-size:1.15rem;text-align:center}
+table.box th,table.box td{border:2px solid var(--ink);padding:8px 16px;min-width:64px}
+table.box th{background:var(--paper);font-weight:600}
+table.box td.lk{background:var(--hl)}
+table.box td.sq{background:var(--blue-soft)} table.box td.k{background:var(--green-soft)}
+.swap{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;font-family:var(--f-math);font-size:1.15rem;text-align:center}
+.swap .lab{font-family:var(--f-hand);font-size:1.25rem;color:var(--pencil);line-height:1.1}
+.swap .lab.r{color:var(--red)}
+.intro{max-width:65ch}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+@media (max-width:520px){body{font-size:16px}.steps{grid-template-columns:1fr;gap:0}.steps span:nth-child(2n){font-size:1.05rem;margin:-2px 0 6px 14px}.steps span:nth-child(2n):empty{display:none}.topic{scroll-margin-top:120px}.topic{padding:16px}.memo{flex-direction:column;gap:2px}.memo .tag{padding-top:0}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="top">
+  <span class="eyebrow">Matematik 2b · Kapitel 1</span>
+  <h1>Matteprov Kap.1</h1>
+  <p class="intro">Prov <b>måndag 12 oktober</b>. Allt från genomgångarna: negativa tal och bråk, algebra, ekvationer, räta linjen, regression, ekvationssystem och parentesregler. Bocka av områdena när de sitter.</p>
+  <span class="countdown" id="countdown">Provet är på måndag!</span>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Delar">
+  <button role="tab" id="t-oversikt" aria-controls="oversikt" aria-selected="true">Översikt</button>
+  <button role="tab" id="t-inlasning" aria-controls="inlasning" aria-selected="false">Inläsning</button>
+  <button role="tab" id="t-ovningar" aria-controls="ovningar" aria-selected="false">Övningar</button>
+  <button role="tab" id="t-quiz" aria-controls="quiz" aria-selected="false">Quiz</button>
+  <button role="tab" id="t-testprov" aria-controls="testprov" aria-selected="false">Testprov</button>
+</nav>
+
+<!-- ======================= ÖVERSIKT ======================= -->
+<section role="tabpanel" id="oversikt" aria-labelledby="t-oversikt">
+  <h2>Det här kommer på provet</h2>
+  <div class="check" id="checklist">
+    <div class="grp">1.1 Repetition</div>
+    <label><input type="checkbox" id="c1"><span class="pg">s. 10–15</span><a href="#a1">Negativa tal och bråk</a></label>
+    <label><input type="checkbox" id="c2"><span class="pg">s. 16–19</span><a href="#a2">Algebra</a></label>
+    <label><input type="checkbox" id="c3"><span class="pg">s. 20–25</span><a href="#a3">Ekvationer</a></label>
+    <div class="grp">1.2 Linjära modeller</div>
+    <label><input type="checkbox" id="c4"><span class="pg">s. 26–31</span><a href="#a4">Räta linjen</a></label>
+    <label><input type="checkbox" id="c5"><span class="pg">s. 32–34</span><a href="#a5">Räta linjen forts. (parallella, vinkelräta)</a></label>
+    <label><input type="checkbox" id="c6"><span class="pg">s. 35–40</span><a href="#a6">Regression och korrelation</a></label>
+    <div class="grp">1.3 Linjära ekvationssystem</div>
+    <label><input type="checkbox" id="c7"><span class="pg">s. 43–46</span><a href="#a7">Linjära ekvationssystem (grafiskt)</a></label>
+    <label><input type="checkbox" id="c8"><span class="pg">s. 47–49</span><a href="#a8">Substitutionsmetoden</a></label>
+    <label><input type="checkbox" id="c9"><span class="pg">s. 50–52</span><a href="#a9">Additionsmetoden</a></label>
+    <label><input type="checkbox" id="c10"><span class="pg">s. 53–56</span><a href="#a10">Problemlösning</a></label>
+    <label><input type="checkbox" id="c11"><span class="pg">s. 57–58</span><a href="#a11">Speciella ekvationssystem</a></label>
+    <div class="grp">Diagnos</div>
+    <label><input type="checkbox" id="c12"><span class="pg">–</span><a href="#testprov">Gör testprovet (fungerar som diagnos)</a></label>
+    <div class="grp">1.4 Uttryck och parenteser</div>
+    <label><input type="checkbox" id="c13"><span class="pg">s. 68–73</span><a href="#a13">Parentesmultiplikation</a></label>
+    <label><input type="checkbox" id="c14"><span class="pg">s. 72–75</span><a href="#a14">Konjugat- och kvadreringsreglerna</a></label>
+    <label><input type="checkbox" id="c15"><span class="pg">s. 76–77</span><a href="#a15">Faktorisering</a></label>
+    <div class="prog" aria-hidden="true"><div id="progbar"></div></div>
+    <p class="muted" id="progtxt" style="font-size:.9rem">0 av 15 klara</p>
+  </div>
+
+  <h2>Studieplan: 2 timmar per dag</h2>
+  <p class="intro">Repetition på E- och C-nivå. Fokus på att förstå idéerna, inte på de svåraste uppgifterna. Bocka av passen när du är klar.</p>
+
+  <div class="day">
+    <h3>Lördag 10 okt <small>1.1 och 1.2 · ca 2 h</small></h3>
+    <div class="tl" aria-hidden="true">
+      <span class="c11" style="flex:35">1.1</span><span class="cp" style="flex:5"></span><span class="c12" style="flex:45">1.2 Räta linjen</span><span class="cp" style="flex:5"></span><span class="c12" style="flex:20">Regr.</span><span class="c14" style="flex:10">Quiz</span>
+    </div>
+    <div class="blocks">
+      <label class="blk"><input type="checkbox" id="p1"><span class="tm">0:00–0:35</span><span><i class="sw c11"></i><b>Repetition 1.1.</b> Läs <a href="#a1">negativa tal och bråk</a>, <a href="#a2">algebra</a> och <a href="#a3">ekvationer</a> i Inläsning. Titta extra på tallinjen, bråkstavarna och gungbrädan. Räkna sedan 2 övningar under varje rubrik i 1.1.</span></label>
+      <div class="blk pause"><span></span><span class="tm">0:35</span><span>5 min paus</span></div>
+      <label class="blk"><input type="checkbox" id="p2"><span class="tm">0:40–1:25</span><span><i class="sw c12"></i><b>Räta linjen.</b> Läs <a href="#a4">räta linjen</a> och <a href="#a5">parallella och vinkelräta linjer</a>. Lär dig trappan: m är starten, k är steget. Räkna alla övningar under "1.2 Räta linjen" och 2 under "forts.".</span></label>
+      <div class="blk pause"><span></span><span class="tm">1:25</span><span>5 min paus</span></div>
+      <label class="blk"><input type="checkbox" id="p3"><span class="tm">1:30–1:50</span><span><i class="sw c12"></i><b>Regression.</b> Läs <a href="#a6">regression och korrelation</a>. Förstå vad r betyder och hur man tolkar k och m i rosen-exemplet. Gör övningarna under rubriken.</span></label>
+      <label class="blk"><input type="checkbox" id="p4"><span class="tm">1:50–2:00</span><span><i class="sw c14"></i><b>Avslutning.</b> Gör quizfrågorna 1–13. Bocka av områdena i checklistan ovan.</span></label>
+    </div>
+  </div>
+
+  <div class="day">
+    <h3>Söndag 11 okt <small>1.3, 1.4 och testprov · ca 2 h</small></h3>
+    <div class="tl" aria-hidden="true">
+      <span class="c14" style="flex:5"></span><span class="c13" style="flex:45">1.3 Ekv.system</span><span class="cp" style="flex:5"></span><span class="c11" style="flex:30">1.4 Parenteser</span><span class="cp" style="flex:5"></span><span class="c14" style="flex:35">Testprov</span>
+    </div>
+    <div class="blocks">
+      <label class="blk"><input type="checkbox" id="p5"><span class="tm">0:00–0:05</span><span><i class="sw c14"></i><b>Uppvärmning.</b> Bläddra igenom minnesbilderna och bilderna från igår.</span></label>
+      <label class="blk"><input type="checkbox" id="p6"><span class="tm">0:05–0:50</span><span><i class="sw c13"></i><b>Ekvationssystem.</b> Läs <a href="#a7">grafiskt</a>, <a href="#a8">substitution</a>, <a href="#a9">addition</a> och <a href="#a11">tre typer av system</a>. Räkna 1–2 övningar per rubrik. Läs sedan <a href="#a10">problemlösning</a> och räkna kaffe- och spargrisuppgiften.</span></label>
+      <div class="blk pause"><span></span><span class="tm">0:50</span><span>5 min paus</span></div>
+      <label class="blk"><input type="checkbox" id="p7"><span class="tm">0:55–1:25</span><span><i class="sw c11"></i><b>Parenteser.</b> Läs <a href="#a13">parentesmultiplikation</a> (rutmetoden), <a href="#a14">kvadrerings- och konjugatregeln</a> (kvadratbilden) och <a href="#a15">faktorisering</a>. Skriv de tre reglerna på en lapp. Räkna 2 övningar per rubrik i 1.4.</span></label>
+      <div class="blk pause"><span></span><span class="tm">1:25</span><span>5 min paus</span></div>
+      <label class="blk"><input type="checkbox" id="p8"><span class="tm">1:30–2:05</span><span><i class="sw c14"></i><b>Testprov.</b> Gör <a href="#testprov">testprovet</a> på papper i 25 minuter. Rätta med facit i 10 minuter och läs om det du missade.</span></label>
+    </div>
+  </div>
+
+  <div class="memo"><span class="tag">Kom ihåg</span><p class="hand">Kontrollera alltid svaret: sätt in det och se att VL = HL. Det ger poäng och fångar slarvfel. Kvällen före provet: sov ordentligt!</p></div>
+</section>
+
+<!-- ======================= INLÄSNING ======================= -->
+<section role="tabpanel" id="inlasning" aria-labelledby="t-inlasning" hidden>
+  <p class="intro">Varje område har regeln, en minnesbild och ett genomräknat exempel. Den blå rutan är det du ska kunna utantill.</p>
+
+  <!-- 1 -->
+  <article class="topic" id="a1">
+    <header><span class="eyebrow">1.1</span><h2>Negativa tal och bråk</h2><span class="pages">s. 10–15</span></header>
+    <div class="two">
+      <div class="rule"><b>Tecken</b><br>
+        <span class="m">a − (−b) = a + b</span> &nbsp;(två minus i rad blir plus)<br>
+        <span class="m">(−)·(−) = +</span> &nbsp; <span class="m">(−)·(+) = −</span><br>
+        Samma regler gäller för division.</div>
+      <div class="rule"><b>Prioritering – PEMDAS</b><br>
+        Parenteser → Exponenter → Multiplikation/Division → Addition/Subtraktion<br>
+        <span class="m">−2² = −4</span> men <span class="m">(−2)² = 4</span></div>
+    </div>
+    <figure>
+      <svg viewBox="0 0 360 96" width="360" role="img" aria-label="Tallinje: från −5 går man 8 steg åt höger till 3">
+        <defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ah"/></marker></defs>
+        <line class="ax" x1="20" y1="66" x2="340" y2="66"/>
+        <g id="nlticks"></g>
+        <path d="M55,58 Q155,0 252,58" class="l1" marker-end="url(#arr)"/>
+        <circle cx="55" cy="66" r="5" class="dot"/><circle cx="255" cy="66" r="5" class="dotb"/>
+        <text x="155" y="20" text-anchor="middle" class="tb">− (−8) = + 8 steg åt höger</text>
+      </svg>
+      <figcaption>−5 − (−8) = −5 + 8 = 3. Plus går åt höger, minus åt vänster.</figcaption>
+    </figure>
+    <div class="memo"><span class="tag">Minnesbild</span><p class="hand">Min fiendes fiende är min vän: minus gånger minus blir plus.</p></div>
+    <div class="rule"><b>Bråk – de fyra räknesätten</b><br>
+      <b>+ och −:</b> gör gemensam nämnare först: <span class="m">[[2|3]] + [[1|4]] = [[8|12]] + [[3|12]] = [[11|12]]</span><br>
+      <b>·:</b> täljare gånger täljare, nämnare gånger nämnare: <span class="m">[[2|3]] · [[5|7]] = [[10|21]]</span><br>
+      <b>÷:</b> vänd på det andra bråket och multiplicera: <span class="m">[[3|5]] ÷ [[9|10]] = [[3|5]] · [[10|9]] = [[30|45]] = [[2|3]]</span><br>
+      <b>Förkorta</b> så långt det går. <b>Blandad form:</b> <span class="m">[[7|3]] = 2[[1|3]]</span></div>
+    <figure>
+      <svg viewBox="0 0 360 122" width="360" role="img" aria-label="Bråkstavar: en halv är tre sjättedelar, en tredjedel är två sjättedelar, summan fem sjättedelar">
+        <g id="fbars"></g>
+      </svg>
+      <figcaption>Dela i lika stora bitar (sjättedelar) först, sedan kan du lägga ihop bitarna.</figcaption>
+    </figure>
+    <div class="ex"><span class="lbl">Exempel från genomgången</span>
+      <div class="steps">
+        <span>5 − (−5) · 2</span><span>multiplikation först</span>
+        <span>= 5 − (−10)</span><span>minus minus blir plus</span>
+        <span>= 5 + 10 = 15</span><span>(inte 20!)</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 2 -->
+  <article class="topic" id="a2">
+    <header><span class="eyebrow">1.1</span><h2>Algebra</h2><span class="pages">s. 16–19</span></header>
+    <div class="rule"><b>Förenkla uttryck</b><br>
+      Samla <i>lika termer</i>: <span class="m">3x + 2y − x + 5y = 2x + 7y</span><br>
+      Multiplicera in: <span class="m">3(x − 4) = 3x − 12</span><br>
+      Minus framför parentes byter alla tecken: <span class="m">−(2x − 5) = −2x + 5</span></div>
+    <div class="memo"><span class="tag">Minnesbild</span><p class="hand">Äpplen och päron: x-termer läggs ihop med x-termer, y med y. x² är en helt annan frukt än x.</p></div>
+    <div class="ex"><span class="lbl">Exempel: omkrets och area med x</span>
+      <div class="two" style="align-items:center">
+      <p>En rätvinklig triangel har kateterna <span class="m">x</span> och <span class="m">x + 1</span> och hypotenusan <span class="m">x + 2</span>.</p>
+      <figure>
+        <svg viewBox="0 0 220 150" width="220" role="img" aria-label="Rätvinklig triangel med sidorna x, x + 1 och x + 2">
+          <polygon points="40,125 190,125 40,25" class="boxA"/>
+          <polyline points="40,113 52,113 52,125" fill="none" class="ax" style="stroke-width:1"/>
+          <text x="115" y="143" text-anchor="middle" style="font-family:var(--f-math);font-size:15px">x + 1</text>
+          <text x="28" y="80" text-anchor="end" style="font-family:var(--f-math);font-size:15px">x</text>
+          <text x="125" y="68" class="tb" style="font-family:var(--f-math);font-size:15px">x + 2</text>
+        </svg>
+      </figure>
+      </div>
+      <div class="steps">
+        <span>Omkrets = x + (x + 1) + (x + 2)</span><span>samla termer</span>
+        <span>= 3x + 3</span><span></span>
+        <span>Area = [[x(x + 1)|2]] = [[x² + x|2]]</span><span>bas · höjd / 2</span>
+      </div>
+    </div>
+    <div class="ex"><span class="lbl">Sätta in värden</span>
+      <div class="steps">
+        <span>3x² − x  då x = −2</span><span>sätt parentes runt talet!</span>
+        <span>= 3·(−2)² − (−2) = 12 + 2 = 14</span><span></span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 3 -->
+  <article class="topic" id="a3">
+    <header><span class="eyebrow">1.1</span><h2>Ekvationer</h2><span class="pages">s. 20–25</span></header>
+    <div class="rule"><b>Balansmetoden</b><br>Gör samma sak på båda sidor tills x står ensamt. Lösningen kallas <b>rot</b>. Kontrollera: <b>VL = HL</b>.</div>
+    <figure>
+      <svg viewBox="0 0 300 150" width="300" role="img" aria-label="Gungbräda i balans med 4x + 2 på vänster sida och 6x − 5 på höger sida">
+        <rect x="25" y="30" width="100" height="32" rx="3" class="boxA"/>
+        <rect x="175" y="30" width="100" height="32" rx="3" class="boxB"/>
+        <text x="75" y="52" text-anchor="middle" style="font-family:var(--f-math);font-size:17px">4x + 2</text>
+        <text x="225" y="52" text-anchor="middle" style="font-family:var(--f-math);font-size:17px">6x − 5</text>
+        <rect x="15" y="62" width="270" height="7" class="ink"/>
+        <polygon points="150,69 128,126 172,126" class="ink"/>
+        <line x1="90" y1="127" x2="210" y2="127" class="ax"/>
+        <text x="60" y="90" text-anchor="middle" class="tb">VL</text><text x="240" y="90" text-anchor="middle" class="tr">HL</text>
+        <text x="150" y="146" text-anchor="middle">−4x på båda sidor → fortfarande i balans</text>
+      </svg>
+    </figure>
+    <div class="memo"><span class="tag">Minnesbild</span><p class="hand">En gungbräda: tar du bort 4x på ena sidan måste du ta bort 4x på andra, annars tippar den.</p></div>
+    <div class="two">
+      <div class="ex"><span class="lbl">Exempel 1</span>
+        <div class="steps">
+          <span>4x + 2 = 6x − 5</span><span>−4x</span>
+          <span>2 = 2x − 5</span><span>+5</span>
+          <span>7 = 2x</span><span>÷2</span>
+          <span>x = 3,5</span><span></span>
+        </div>
+        <p class="muted" style="font-size:.9rem">Kontroll: VL = 4·3,5 + 2 = 16, HL = 6·3,5 − 5 = 16 ✓</p>
+      </div>
+      <div class="ex"><span class="lbl">Exempel 2 – med bråk</span>
+        <div class="steps">
+          <span>[[x|2]] + [[x|3]] = 15</span><span>gemensam nämnare 6</span>
+          <span>[[3x|6]] + [[2x|6]] = [[5x|6]] = 15</span><span>·6</span>
+          <span>5x = 90</span><span>÷5</span>
+          <span>x = 18</span><span></span>
+        </div>
+      </div>
+    </div>
+    <div class="ex"><span class="lbl">Lösa ut en variabel</span>
+      <div class="steps">
+        <span>2x + 10y = 4</span><span>−10y</span>
+        <span>2x = 4 − 10y</span><span>÷2</span>
+        <span>x = 2 − 5y</span><span></span>
+      </div>
+    </div>
+    <p class="muted" style="font-size:.95rem">Digitalt: i GeoGebra kan du skriva ekvationen i CAS och trycka <i>Lös</i>, eller rita båda leden som linjer och läsa av skärningen.</p>
+  </article>
+
+  <!-- 4 -->
+  <article class="topic" id="a4">
+    <header><span class="eyebrow">1.2</span><h2>Räta linjen</h2><span class="pages">s. 26–31</span></header>
+    <div class="two">
+      <div class="rule"><b><span class="m">y = kx + m</span></b><br>
+        <b>k</b> = lutning = <span class="m">[[Δy|Δx]] = [[y₂ − y₁|x₂ − x₁]]</span><br>
+        <b>m</b> = där linjen skär y-axeln<br>
+        k &gt; 0 växer, k &lt; 0 avtar<br>
+        <span class="m">y = 3</span>: vågrät, k = 0<br>
+        <span class="m">x = 3</span>: lodrät, saknar k (ingen funktion)</div>
+      <figure>
+        <svg viewBox="0 0 270 210" width="270" role="img" aria-label="Linjen y = 2x + 1 med trappsteg som visar k = 2 och m = 1">
+          <g id="g4grid"></g>
+          <line class="ax" x1="10" y1="170" x2="260" y2="170"/><line class="ax" x1="60" y1="10" x2="60" y2="200"/>
+          <text x="252" y="186">x</text><text x="66" y="18">y</text>
+          <line class="l1" x1="47.5" y1="170" x2="125" y2="15"/>
+          <polyline class="st" points="85,95 110,95 110,45"/>
+          <text x="88" y="111" class="tg">Δx = 1</text><text x="115" y="74" class="tg">Δy = 2</text>
+          <circle class="dotb" cx="60" cy="145" r="5"/><text x="18" y="142" class="tb">m = 1</text>
+          <text x="135" y="30" class="tb">y = 2x + 1</text>
+        </svg>
+        <figcaption>Gå 1 steg åt höger, k steg upp.</figcaption>
+      </figure>
+    </div>
+    <div class="memo"><span class="tag">Minnesbild</span><p class="hand">m är var du startar på y-axeln (hissen). k är trappan: ett steg åt höger, k steg upp (eller ner om k är negativt).</p></div>
+    <div class="ex"><span class="lbl">Linjen genom två punkter: (1, 3) och (4, 9)</span>
+      <div class="steps">
+        <span>k = [[9 − 3|4 − 1]] = [[6|3]] = 2</span><span>lutningen</span>
+        <span>3 = 2·1 + m</span><span>sätt in en punkt</span>
+        <span>m = 1</span><span></span>
+        <span>y = 2x + 1</span><span>svar</span>
+      </div>
+    </div>
+    <div class="ex"><span class="lbl">Ligger punkten på linjen? y = 250 + 75x</span>
+      <p>Testa (5, 625): <span class="m">250 + 75·5 = 625</span> ✓ ligger på linjen. Testa (3, 425): <span class="m">250 + 75·3 = 475 ≠ 425</span>, ligger inte på linjen.</p>
+      <p class="muted" style="font-size:.95rem">Linjär modell: 250 = fast startvärde (m), 75 = ökning per steg (k). Obs: y(6) är <i>inte</i> dubbelt så stort som y(3), eftersom m finns med.</p>
+    </div>
+  </article>
+
+  <!-- 5 -->
+  <article class="topic" id="a5">
+    <header><span class="eyebrow">1.2</span><h2>Räta linjen forts.</h2><span class="pages">s. 32–34</span></header>
+    <div class="two">
+      <div class="rule"><b>Parallella</b> linjer har samma k.<br><span class="m">y = 3x + 3</span> och <span class="m">y = 3x + 1</span></div>
+      <div class="rule"><b>Vinkelräta</b> linjer: <span class="m">k₁ · k₂ = −1</span><br><span class="m">y = −4x</span> och <span class="m">y = [[1|4]]x + 3</span>, eftersom <span class="m">−4 · [[1|4]] = −1</span></div>
+    </div>
+    <figure>
+      <svg viewBox="0 0 330 170" width="330" role="img" aria-label="Två parallella linjer med samma k, och två vinkelräta linjer som möts i rät vinkel">
+        <rect x="5" y="5" width="145" height="135" fill="none" class="gl2"/>
+        <rect x="180" y="5" width="145" height="135" fill="none" class="gl2"/>
+        <line class="l1" x1="15" y1="105" x2="140" y2="20"/><line class="l1" x1="15" y1="132" x2="140" y2="47"/>
+        <line class="l1" x1="192" y1="128" x2="312" y2="16"/><line class="l2" x1="192" y1="16" x2="312" y2="128"/>
+        <polyline points="244,79 252,72 260,79" fill="none" class="ax"/>
+        <text x="77" y="160" text-anchor="middle">Parallella: samma k</text>
+        <text x="252" y="160" text-anchor="middle">Vinkelräta: k₁·k₂ = −1</text>
+      </svg>
+    </figure>
+    <div class="memo"><span class="tag">Minnesbild</span><p class="hand">Vinkelrät: vänd bråket och byt tecken. k = 2 ger k = −½. k = −⅔ ger k = 3/2.</p></div>
+    <div class="rule"><b>Allmän form</b> <span class="m">ax + by + c = 0</span>. Lös ut y för att se k och m:<br>
+      <span class="m">3x − y + 1 = 0  ⇒  y = 3x + 1</span></div>
+    <div class="ex"><span class="lbl">Exempel: linjen genom (3, −2) med k = 4</span>
+      <div class="steps">
+        <span>−2 = 4·3 + m</span><span>sätt in x och y</span>
+        <span>−2 = 12 + m</span><span>−12</span>
+        <span>m = −14  ⇒  y = 4x − 14</span><span></span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 6 -->
+  <article class="topic" id="a6">
+    <header><span class="eyebrow">1.2</span><h2>Regression och korrelation</h2><span class="pages">s. 35–40</span></header>
+    <div class="rule"><b>Linjär regression</b> = den räta linje som passar mätpunkterna bäst. Med ögonmått: dra en linje så att ungefär lika många punkter hamnar över som under. I GeoGebra: markera punkterna → <i>Regressionsanalys</i> → <i>Linjär</i>.<br>
+      <b>Korrelationskoefficienten r</b> ligger mellan −1 och 1 och visar hur starkt det linjära sambandet är.</div>
+    <figure>
+      <svg viewBox="0 0 420 150" width="420" role="img" aria-label="Tre punktdiagram: r nära 1, r nära minus 1 och r nära 0">
+        <g id="scat"></g>
+        <text x="65" y="146" text-anchor="middle">r ≈ 0,95</text>
+        <text x="210" y="146" text-anchor="middle">r ≈ −0,95</text>
+        <text x="355" y="146" text-anchor="middle">r ≈ 0</text>
+      </svg>
+      <figcaption>Stark positiv · stark negativ · inget linjärt samband</figcaption>
+    </figure>
+    <div class="tablewrap"><table class="t">
+      <tr><th>r</th><th>Betyder</th></tr>
+      <tr><td class="m">nära 1</td><td>starkt positivt samband (båda ökar)</td></tr>
+      <tr><td class="m">nära −1</td><td>starkt negativt samband (ena ökar, andra minskar)</td></tr>
+      <tr><td class="m">nära 0</td><td>inget linjärt samband</td></tr>
+    </table></div>
+    <div class="memo"><span class="tag">Minnesbild</span><p class="hand">Glassförsäljning och drunkningar har hög korrelation, men glassen orsakar inte drunkningarna. Det är värmen som styr båda. Korrelation är inte orsak.</p></div>
+    <figure>
+      <svg viewBox="0 0 290 200" width="290" role="img" aria-label="Rosens höjd mot antal dygn med regressionslinjen y = 2x + 7,5">
+        <g id="rosegrid"></g>
+        <line class="ax" x1="40" y1="170" x2="265" y2="170"/><line class="ax" x1="40" y1="15" x2="40" y2="170"/>
+        <line class="l2" x1="40" y1="125" x2="250" y2="41" style="stroke-width:2.5"/>
+        <g id="rosepts"></g>
+        <circle cx="250" cy="41" r="6" fill="none" class="l2"/>
+        <text x="240" y="30" text-anchor="end" class="tr">21,5 cm efter 7 dygn</text>
+        <text x="262" y="198" text-anchor="end">dygn (x)</text>
+        <text x="8" y="10">cm (y)</text>
+        <text x="48" y="145" class="tr">m = 7,5</text>
+      </svg>
+      <figcaption>Blå punkter = mätningar. Röd linje = regressionslinjen som passar bäst.</figcaption>
+    </figure>
+    <div class="ex"><span class="lbl">Tolka regressionslinjen: rosens höjd y = 2x + 7,5 (x = dygn)</span>
+      <p><b>k = 2:</b> rosen växer 2 cm per dygn. <b>m = 7,5:</b> rosen var 7,5 cm när mätningen började.<br>
+      Efter 7 dygn: <span class="m">y = 2·7 + 7,5 = 21,5</span> cm.</p>
+      <p class="muted" style="font-size:.95rem"><b>Interpolation</b> = uppskatta inom mätområdet (ganska säkert). <b>Extrapolation</b> = gissa utanför mätområdet (osäkert, rosen växer inte 2 cm/dygn i ett år).</p>
+    </div>
+  </article>
+
+  <!-- 7 -->
+  <article class="topic" id="a7">
+    <header><span class="eyebrow">1.3</span><h2>Linjära ekvationssystem</h2><span class="pages">s. 43–46</span></header>
+    <div class="two">
+      <div class="rule"><b>Två ekvationer, två obekanta.</b> Klammern { visar att de hör ihop.<br>
+        Varje ekvation är en rät linje. <b>Lösningen är skärningspunkten</b> – det (x, y) som stämmer i båda ekvationerna.<br><br>
+        <b>Grafiskt:</b> skriv båda på formen <span class="m">y = kx + m</span>, rita, läs av skärningen.</div>
+      <figure>
+        <svg viewBox="0 0 250 200" width="250" role="img" aria-label="Linjerna y = −x + 13 och y = x + 3 skär varandra i punkten (5, 8)">
+          <g id="g7grid"></g>
+          <line class="ax" x1="20" y1="180" x2="225" y2="180"/><line class="ax" x1="20" y1="5" x2="20" y2="190"/>
+          <line class="l1" x1="20" y1="30.5" x2="169.5" y2="180"/>
+          <line class="l2" x1="20" y1="145.5" x2="158" y2="7.5"/>
+          <circle class="dot" cx="77.5" cy="88" r="5"/>
+          <text x="86" y="106">(5, 8)</text>
+          <text x="112" y="168" class="tb">y = −x + 13</text>
+          <text x="165" y="18" class="tr">y = x + 3</text>
+        </svg>
+        <figcaption>Skärningspunkten (5, 8) ger x = 5, y = 8.</figcaption>
+      </figure>
+    </div>
+    <div class="memo"><span class="tag">Minnesbild</span><p class="hand">Två vägar som korsar varandra. Korsningen är den enda platsen som ligger på båda vägarna.</p></div>
+    <div class="ex"><span class="lbl">Är (5, −2) en lösning till 2x + 1,5y = 7 och 3x + 8y = −3?</span>
+      <p>Ekv 1: VL = 2·5 + 1,5·(−2) = 7 = HL ✓. Ekv 2: VL = 3·5 + 8·(−2) = −1 ≠ −3 ✗.<br><b>Svar:</b> Nej, punkten måste stämma i <i>båda</i>.</p>
+    </div>
+  </article>
+
+  <!-- 8 -->
+  <article class="topic" id="a8">
+    <header><span class="eyebrow">1.3</span><h2>Substitutionsmetoden</h2><span class="pages">s. 47–49</span></header>
+    <div class="rule"><b>1.</b> Lös ut x eller y ur en ekvation (välj den enklaste).<br>
+      <b>2.</b> Byt ut (substituera) variabeln i den <i>andra</i> ekvationen.<br>
+      <b>3.</b> Lös ekvationen med en obekant.<br>
+      <b>4.</b> Sätt in värdet och räkna ut den andra variabeln. Kontrollera.</div>
+    <div class="flow" aria-label="Substitution: y byts mot 3x − 2">
+      <span class="box">y = <span class="ins">3x − 2</span></span>
+      <span class="arrow">byt ut y →</span>
+      <span>2x + <span class="cancel">y</span> = 13</span>
+      <span class="arrow">→</span>
+      <span>2x + <span class="ins">(3x − 2)</span> = 13</span>
+    </div>
+    <div class="memo"><span class="tag">Minnesbild</span><p class="hand">Avbytare i fotboll: y går ut och "3x − 2" kommer in på samma plats.</p></div>
+    <div class="ex"><span class="lbl">Exempel</span>
+      <p><span class="m">{ y = 3x − 2 &nbsp;&nbsp; (1)</span><br><span class="m">{ 2x + y = 13 &nbsp; (2)</span></p>
+      <div class="steps">
+        <span>2x + (3x − 2) = 13</span><span>byt y i (2)</span>
+        <span>5x − 2 = 13</span><span>+2</span>
+        <span>5x = 15  ⇒  x = 3</span><span></span>
+        <span>y = 3·3 − 2 = 7</span><span>in i (1)</span>
+      </div>
+      <p class="muted" style="font-size:.95rem">Kontroll i (2): 2·3 + 7 = 13 ✓. <b>Svar:</b> x = 3, y = 7</p>
+    </div>
+  </article>
+
+  <!-- 9 -->
+  <article class="topic" id="a9">
+    <header><span class="eyebrow">1.3</span><h2>Additionsmetoden</h2><span class="pages">s. 50–52</span></header>
+    <div class="rule">Se till att en variabel har <b>samma koefficient med motsatt tecken</b> i båda ekvationerna (t.ex. 3y och −3y). Addera ekvationerna led för led, så försvinner variabeln. Multiplicera en eller båda ekvationerna om det behövs.</div>
+    <div><div class="stack" aria-label="Additionsmetoden: 3x + 2y = 16 plus 5x − 2y = 0 ger 8x = 16">
+      <span></span><span>3x</span><span>+</span><span class="cancel">2y</span><span>=</span><span>16</span>
+      <span>+</span><span>5x</span><span>−</span><span class="cancel">2y</span><span>=</span><span>0</span>
+      <span class="sum"></span><span class="sum">8x</span><span class="sum"></span><span class="sum"></span><span class="sum">=</span><span class="sum">16</span>
+    </div></div>
+    <div class="memo"><span class="tag">Minnesbild</span><p class="hand">+2y och −2y tar ut varandra som plus- och minuspoler. Bygg om ekvationerna tills ett par tar ut varandra.</p></div>
+    <div class="two">
+      <div class="ex"><span class="lbl">Direkt</span>
+        <p><span class="m">{ 3x + 2y = 16</span><br><span class="m">{ 5x − 2y = 0</span></p>
+        <div class="steps">
+          <span>8x = 16</span><span>addera</span>
+          <span>x = 2</span><span></span>
+          <span>3·2 + 2y = 16 ⇒ y = 5</span><span></span>
+        </div>
+      </div>
+      <div class="ex"><span class="lbl">Bygg om först</span>
+        <p><span class="m">{ 3x + 9y = 7 &nbsp;&nbsp;(·2)</span><br><span class="m">{ 2x + 4y = 4 &nbsp;&nbsp;(·(−3))</span></p>
+        <div class="steps">
+          <span>6x + 18y = 14</span><span></span>
+          <span>−6x − 12y = −12</span><span>addera</span>
+          <span>6y = 2 ⇒ y = [[1|3]]</span><span>avrunda inte!</span>
+          <span>6x + 6 = 14 ⇒ x = [[4|3]]</span><span></span>
+        </div>
+      </div>
+    </div>
+    <div class="tablewrap"><table class="t">
+      <tr><th>Välj metod</th><th>När</th></tr>
+      <tr><td>Substitution</td><td>En variabel står redan ensam, t.ex. <span class="m">y = …</span> eller <span class="m">x = …</span></td></tr>
+      <tr><td>Addition</td><td>Båda ekvationerna står på formen <span class="m">ax + by = c</span></td></tr>
+    </table></div>
+  </article>
+
+  <!-- 10 -->
+  <article class="topic" id="a10">
+    <header><span class="eyebrow">1.3</span><h2>Problemlösning</h2><span class="pages">s. 53–56</span></header>
+    <div class="rule"><b>Fem steg</b><ol style="margin:4px 0 0;padding-left:1.3em"><li>Förstå problemet</li><li>Definiera variabler (skriv "x = antal …")</li><li>Teckna och lös ekvationssystemet</li><li>Är svaret rimligt? Kontrollera</li><li>Skriv svar med enhet</li></ol></div>
+    <div class="ex"><span class="lbl">Biljetter: sittplats 90 kr, ståplats 50 kr. 1 460 biljetter för 97 800 kr.</span>
+      <p>x = antal sittplatser, y = antal ståplatser.</p>
+      <div class="steps">
+        <span>x + y = 1460</span><span>(1) antal</span>
+        <span>90x + 50y = 97800</span><span>(2) pengar</span>
+        <span>−50x − 50y = −73000</span><span>(1)·(−50)</span>
+        <span>40x = 24800 ⇒ x = 620</span><span>addera med (2)</span>
+        <span>y = 1460 − 620 = 840</span><span></span>
+      </div>
+      <p><b>Svar:</b> 620 sittplatsbiljetter och 840 ståplatsbiljetter.</p>
+    </div>
+    <div class="ex"><span class="lbl">Kostnad och intäkt – när blir det vinst?</span>
+      <p>Smeden: fast kostnad 2 500 kr, 100 kr per smycke, säljer för 350 kr.<br>
+        <span class="m">K = 2500 + 100x</span>, &nbsp; <span class="m">I = 350x</span>. Vinstgräns när <span class="m">K = I</span>:</p>
+      <div class="steps"><span>2500 + 100x = 350x ⇒ 250x = 2500 ⇒ x = 10</span><span></span></div>
+      <p>Vid 10 smycken går smeden jämnt ut. <b>Minst 11 smycken</b> ger vinst.</p>
+      <figure>
+        <svg viewBox="0 0 290 205" width="290" role="img" aria-label="Kostnadslinjen K och intäktslinjen I skär varandra vid x = 10">
+          <polygon points="45,107.5 175,82.5 45,170" class="boxB" style="stroke:none"/>
+          <polygon points="175,82.5 253,67.5 253,30" class="boxC" style="stroke:none"/>
+          <line class="ax" x1="45" y1="170" x2="265" y2="170"/><line class="ax" x1="45" y1="15" x2="45" y2="170"/>
+          <line class="l2" x1="45" y1="107.5" x2="253" y2="67.5"/>
+          <line class="l1" x1="45" y1="170" x2="253" y2="30"/>
+          <line x1="175" y1="82.5" x2="175" y2="170" class="st" style="stroke:var(--ink)"/>
+          <circle cx="175" cy="82.5" r="5" class="dot"/>
+          <text x="175" y="186" text-anchor="middle">x = 10</text>
+          <text x="58" y="130" class="tr">förlust</text>
+          <text x="220" y="64" class="tg" style="font-size:11px">vinst</text>
+          <text x="262" y="84" text-anchor="end" class="tr">K</text>
+          <text x="236" y="36" text-anchor="end" class="tb">I</text>
+          <text x="265" y="202" text-anchor="end" class="muted" style="font-size:11px">antal smycken</text>
+        </svg>
+        <figcaption>Röd = kostnad K, blå = intäkt I. Där de korsar går man jämnt ut.</figcaption>
+      </figure>
+    </div>
+    <div class="ex"><span class="lbl">Lön: välja alternativ</span>
+      <p>i) <span class="m">y = 6x + 220</span> &nbsp; ii) <span class="m">y = 10x + 180</span> (x = antal enheter). Linjerna skär vid x = 10. Under 10 enheter är i) bäst, över 10 är ii) bäst.</p>
+    </div>
+  </article>
+
+  <!-- 11 -->
+  <article class="topic" id="a11">
+    <header><span class="eyebrow">1.3</span><h2>Speciella ekvationssystem</h2><span class="pages">s. 57–58</span></header>
+    <figure>
+      <svg viewBox="0 0 420 140" width="420" role="img" aria-label="Tre fall: linjer som skär (en lösning), parallella linjer (ingen lösning), samma linje (oändligt många lösningar)">
+        <rect class="gl2" x="5" y="5" width="125" height="105" fill="none"/>
+        <rect class="gl2" x="148" y="5" width="125" height="105" fill="none"/>
+        <rect class="gl2" x="291" y="5" width="125" height="105" fill="none"/>
+        <line class="l1" x1="15" y1="100" x2="120" y2="15"/><line class="l2" x1="15" y1="20" x2="120" y2="100"/><circle class="dot" cx="67" cy="58" r="4.5"/>
+        <line class="l1" x1="158" y1="80" x2="263" y2="20"/><line class="l2" x1="158" y1="100" x2="263" y2="40"/>
+        <line class="l2" x1="301" y1="95" x2="406" y2="20" style="stroke-width:7;opacity:.45"/><line class="l1" x1="301" y1="95" x2="406" y2="20"/>
+        <text x="67" y="128" text-anchor="middle">En lösning</text>
+        <text x="210" y="128" text-anchor="middle">Ingen lösning</text>
+        <text x="353" y="128" text-anchor="middle">Oändligt många</text>
+      </svg>
+    </figure>
+    <div class="tablewrap"><table class="t">
+      <tr><th>Fall</th><th>Linjerna</th><th>Det du får när du räknar</th></tr>
+      <tr><td>En lösning</td><td>olika k</td><td>ett värde på x och y</td></tr>
+      <tr><td>Ingen lösning</td><td>samma k, olika m (parallella)</td><td>något falskt, t.ex. <span class="m">0 = 5</span></td></tr>
+      <tr><td>Oändligt många</td><td>samma k och samma m (samma linje)</td><td>något alltid sant, <span class="m">0 = 0</span></td></tr>
+    </table></div>
+    <div class="ex"><span class="lbl">Exempel</span>
+      <p><span class="m">{ y = 2x + 3</span> och <span class="m">{ 4x − 2y = 2</span>: &nbsp; <span class="m">4x − 2(2x + 3) = 2 ⇒ −6 = 2</span>, falskt. <b>Ingen lösning.</b><br>
+         Kolla med k: andra ekvationen blir <span class="m">y = 2x − 1</span>. Samma k = 2, olika m → parallella.</p>
+    </div>
+  </article>
+
+  <!-- 13 -->
+  <article class="topic" id="a13">
+    <header><span class="eyebrow">1.4</span><h2>Parentesmultiplikation</h2><span class="pages">s. 68–73</span></header>
+    <div class="rule"><b>Varje term gånger varje term</b><br><span class="m">(a + b)(c + d) = ac + ad + bc + bd</span></div>
+    <div class="two" style="align-items:center">
+      <div class="tablewrap"><table class="box" aria-label="Rutmetoden för (x − 2)(2x + 5)">
+        <tr><th>·</th><th>2x</th><th>+5</th></tr>
+        <tr><th>x</th><td class="sq">2x²</td><td class="lk">+5x</td></tr>
+        <tr><th>−2</th><td class="lk">−4x</td><td class="k">−10</td></tr>
+      </table></div>
+      <p><b>Rutmetoden</b> för <span class="m">(x − 2)(2x + 5)</span>: skriv ena parentesen upptill och den andra till vänster. Fyll i varje ruta. De gula rutorna är lika termer: <span class="m">5x − 4x = x</span>.<br>Svar: <span class="m">2x² + x − 10</span></p>
+    </div>
+    <div class="memo"><span class="tag">Minnesbild</span><p class="hand">Alla i första gänget hälsar på alla i andra gänget. 2 · 2 = 4 handskakningar, sedan slår du ihop lika termer.</p></div>
+    <div class="two">
+      <div class="ex"><span class="lbl">Exempel</span>
+        <div class="steps">
+          <span>(x − 2)(2x + 5)</span><span></span>
+          <span>= 2x² + 5x − 4x − 10</span><span>alla gånger alla</span>
+          <span>= 2x² + x − 10</span><span>slå ihop</span>
+        </div>
+      </div>
+      <div class="ex"><span class="lbl">Minus framför – sätt parentes!</span>
+        <div class="steps">
+          <span>5x² − 3(x + 2)(x − 3)</span><span></span>
+          <span>= 5x² − 3(x² − x − 6)</span><span>multiplicera ut först</span>
+          <span>= 5x² − 3x² + 3x + 18</span><span>byt tecken</span>
+          <span>= 2x² + 3x + 18</span><span></span>
+        </div>
+      </div>
+    </div>
+    <div class="ex"><span class="lbl">Ekvation där x² försvinner: kvadrat med sidan x och rektangel (x + 4)(x − 2) har lika stor area</span>
+      <div class="steps">
+        <span>x² = (x + 4)(x − 2)</span><span></span>
+        <span>x² = x² + 2x − 8</span><span>−x²</span>
+        <span>0 = 2x − 8 ⇒ x = 4</span><span>svar: 4 m</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 14 -->
+  <article class="topic" id="a14">
+    <header><span class="eyebrow">1.4</span><h2>Konjugat- och kvadreringsreglerna</h2><span class="pages">s. 72–75</span></header>
+    <div class="rule">
+      <b>Första kvadreringsregeln</b> &nbsp;<span class="m">(a + b)² = a² + 2ab + b²</span><br>
+      <b>Andra kvadreringsregeln</b> &nbsp;<span class="m">(a − b)² = a² − 2ab + b²</span><br>
+      <b>Konjugatregeln</b> &nbsp;<span class="m">(a + b)(a − b) = a² − b²</span></div>
+    <div class="two">
+      <figure>
+        <svg viewBox="0 0 200 200" width="200" role="img" aria-label="Kvadrat med sidan a plus b uppdelad i a², ab, ab och b²">
+          <rect class="boxA" x="20" y="20" width="110" height="110"/>
+          <rect class="boxB" x="130" y="20" width="50" height="110"/>
+          <rect class="boxB" x="20" y="130" width="110" height="50"/>
+          <rect class="boxC" x="130" y="130" width="50" height="50"/>
+          <text x="75" y="80" text-anchor="middle" style="font-size:18px;font-family:var(--f-math)">a²</text>
+          <text x="155" y="80" text-anchor="middle" style="font-size:16px;font-family:var(--f-math)">ab</text>
+          <text x="75" y="160" text-anchor="middle" style="font-size:16px;font-family:var(--f-math)">ab</text>
+          <text x="155" y="160" text-anchor="middle" style="font-size:16px;font-family:var(--f-math)">b²</text>
+          <text x="75" y="13" text-anchor="middle">a</text><text x="155" y="13" text-anchor="middle">b</text>
+          <text x="8" y="80" text-anchor="middle">a</text><text x="8" y="160" text-anchor="middle">b</text>
+        </svg>
+        <figcaption>(a + b)² = a² + ab + ab + b² — därför 2ab.</figcaption>
+      </figure>
+      <div class="memo" style="align-self:center"><span class="tag">Minnesbild</span><p class="hand">Kvadrering: "första i kvadrat, dubbla produkten, andra i kvadrat". Glöm aldrig mittentermen!<br><br>Konjugat: plus-och-minus-tvillingar. Mittentermerna tar ut varandra och bara "första² minus andra²" blir kvar.</p></div>
+    </div>
+    <div class="two" style="align-items:center">
+      <div class="tablewrap"><table class="box" aria-label="Rutmetoden för (a + b)(a − b)">
+        <tr><th>·</th><th>a</th><th>+b</th></tr>
+        <tr><th>a</th><td class="sq">a²</td><td class="lk"><span class="cancel">+ab</span></td></tr>
+        <tr><th>−b</th><td class="lk"><span class="cancel">−ab</span></td><td class="k">−b²</td></tr>
+      </table></div>
+      <p><b>Konjugatregeln i rutor:</b> de gula rutorna tar ut varandra (<span class="m">+ab − ab = 0</span>). Kvar blir bara hörnen: <span class="m">a² − b²</span>.</p>
+    </div>
+    <div class="tablewrap"><table class="t">
+      <tr><th>Uttryck</th><th>Regel</th><th>Svar</th></tr>
+      <tr><td class="m">(a + 5)²</td><td>1:a kvadr.</td><td class="m">a² + 10a + 25</td></tr>
+      <tr><td class="m">(3x − 2)²</td><td>2:a kvadr.</td><td class="m">9x² − 12x + 4</td></tr>
+      <tr><td class="m">(9 − y)(9 + y)</td><td>konjugat</td><td class="m">81 − y²</td></tr>
+      <tr><td class="m">(2x − 3)(2x + 3)</td><td>konjugat</td><td class="m">4x² − 9</td></tr>
+    </table></div>
+    <p class="muted" style="font-size:.95rem">Vanligt fel: <span class="m">(x + 3)² ≠ x² + 9</span>. Huvudräkning: <span class="m">21·19 = (20 + 1)(20 − 1) = 400 − 1 = 399</span>.</p>
+  </article>
+
+  <!-- 15 -->
+  <article class="topic" id="a15">
+    <header><span class="eyebrow">1.4</span><h2>Faktorisering</h2><span class="pages">s. 76–77</span></header>
+    <div class="rule"><b>Faktorisera</b> = skriva som en multiplikation. Reglerna baklänges.<br>
+      <b>1. Bryt ut</b> gemensam faktor: <span class="m">3x² + x = x(3x + 1)</span><br>
+      <b>2. Konjugat</b> baklänges: <span class="m">a² − b² = (a + b)(a − b)</span><br>
+      <b>3. Kvadrering</b> baklänges: <span class="m">a² + 2ab + b² = (a + b)²</span></div>
+    <div class="swap" aria-label="Utveckla och faktorisera är samma sak åt olika håll">
+      <span style="border:2px solid var(--blue);border-radius:6px;padding:8px;background:var(--blue-soft)">(x + 2)(x − 2)</span>
+      <span><span class="lab">utveckla →</span><br><span class="lab r">← faktorisera</span></span>
+      <span style="border:2px solid var(--red);border-radius:6px;padding:8px;background:var(--red-soft)">x² − 4</span>
+    </div>
+    <div class="memo"><span class="tag">Minnesbild</span><p class="hand">Packa tillbaka i lådorna. Kolla först: finns något gemensamt att bryta ut? Sedan: är det "något² minus något²"?</p></div>
+    <div class="tablewrap"><table class="t">
+      <tr><th>Uttryck</th><th>Tänk</th><th>Faktoriserat</th></tr>
+      <tr><td class="m">x² − 4</td><td class="m">x² − 2²</td><td class="m">(x + 2)(x − 2)</td></tr>
+      <tr><td class="m">100 − x²</td><td class="m">10² − x²</td><td class="m">(10 + x)(10 − x)</td></tr>
+      <tr><td class="m">36z² − 25p²</td><td class="m">(6z)² − (5p)²</td><td class="m">(6z + 5p)(6z − 5p)</td></tr>
+      <tr><td class="m">4 + 4b + b²</td><td class="m">2² + 2·2·b + b²</td><td class="m">(2 + b)²</td></tr>
+      <tr><td class="m">2x² − 8</td><td>bryt ut 2 först</td><td class="m">2(x + 2)(x − 2)</td></tr>
+    </table></div>
+  </article>
+</section>
+
+<!-- ======================= ÖVNINGAR ======================= -->
+<section role="tabpanel" id="ovningar" aria-labelledby="t-ovningar" hidden>
+  <p class="intro">Räkna på papper först. Kolla sedan svaret, och visa lösningen om du fick fel.</p>
+  <div class="toolbar"><button class="btn" id="showAllAns">Visa alla svar</button><button class="btn" id="hideAllAns">Dölj alla</button></div>
+  <div class="ovn" id="ovnList"></div>
+</section>
+
+<!-- ======================= QUIZ ======================= -->
+<section role="tabpanel" id="quiz" aria-labelledby="t-quiz" hidden>
+  <p class="intro">Snabba flervalsfrågor över hela kapitlet. Klicka på ditt svar.</p>
+  <div class="toolbar"><button class="btn" id="quizReset">Börja om och blanda</button></div>
+  <div class="quiz" id="quizList"></div>
+  <div class="score" id="quizScore">0 / 0 rätt</div>
+</section>
+
+<!-- ======================= TESTPROV ======================= -->
+<section role="tabpanel" id="testprov" aria-labelledby="t-testprov" hidden>
+  <p class="intro">Uppgifter på E- och C-nivå. Gör provet på papper utan räknare i 25 minuter. Rätta sedan med facit och bocka i de uppgifter du klarade.</p>
+  <div class="tally" id="tally"></div>
+  <div class="toolbar"><button class="btn" id="showFacit">Visa hela facit</button><button class="btn" id="hideFacit">Dölj facit</button></div>
+  <div class="ovn" id="testList"></div>
+</section>
+</div>
+
+<script>
+// ---- Bråknotation [[a|b]] i statisk text ----
+(function(){
+  const fr=s=>s.replace(/\[\[(.+?)\|(.+?)\]\]/g,'<span class="fr"><span>$1</span><span>$2</span></span>');
+  document.querySelectorAll('#inlasning .rule,#inlasning .steps,#inlasning p').forEach(el=>{ if(el.innerHTML.includes('[[')) el.innerHTML=fr(el.innerHTML); });
+  window.FR=fr;
+})();
+
+// ---- SVG-rutnät ----
+function grid(id,x0,x1,y0,y1,step){const g=document.getElementById(id);let h='';for(let x=x0;x<=x1;x+=step)h+=`<line class="gl2" x1="${x}" y1="${y0}" x2="${x}" y2="${y1}" style="opacity:.55"/>`;for(let y=y0;y<=y1;y+=step)h+=`<line class="gl2" x1="${x0}" y1="${y}" x2="${x1}" y2="${y}" style="opacity:.55"/>`;g.innerHTML=h;}
+grid('g4grid',10,260,20,195,25);
+grid('g7grid',20,224,7.5,180,11.5);
+
+// ---- Tallinje, bråkstavar, rosen ----
+(function(){
+  let h='';for(let n=-6;n<=6;n++){const x=30+(n+6)*25;h+=`<line x1="${x}" y1="60" x2="${x}" y2="72" class="ax" style="stroke-width:${n===0?2:1}"/><text x="${x}" y="88" text-anchor="middle" style="font-size:11px">${n<0?'−'+(-n):n}</text>`;}
+  document.getElementById('nlticks').innerHTML=h;
+  const rows=[['1/2 = 3/6',3,0],['1/3 = 2/6',0,2],['summa 5/6',3,2]];
+  let f='';rows.forEach(([lab,b,r],i)=>{const y=8+i*38;f+=`<text x="0" y="${y+19}" style="font-size:14px;font-family:var(--f-math)">${lab}</text>`;
+    for(let k=0;k<6;k++){const cls=k<b?'boxA':(k<b+r?'boxB':'');f+=cls?`<rect x="${120+k*38}" y="${y}" width="38" height="28" class="${cls}"/>`:`<rect x="${120+k*38}" y="${y}" width="38" height="28" fill="none" style="stroke:var(--line);stroke-width:1.5"/>`;}
+  });
+  document.getElementById('fbars').innerHTML=f;
+  let g='';for(let x=0;x<=7;x++)g+=`<line class="gl2" x1="${40+x*30}" y1="20" x2="${40+x*30}" y2="170" style="opacity:.5"/><text x="${40+x*30}" y="184" text-anchor="middle" style="font-size:11px">${x}</text>`;
+  for(let y=5;y<=25;y+=5)g+=`<line class="gl2" x1="40" y1="${170-y*6}" x2="255" y2="${170-y*6}" style="opacity:.5"/><text x="34" y="${174-y*6}" text-anchor="end" style="font-size:11px">${y}</text>`;
+  document.getElementById('rosegrid').innerHTML=g;
+  document.getElementById('rosepts').innerHTML=[[0,8],[1,9],[2,12],[3,13],[4,15],[5,18],[6,19]].map(([x,y])=>`<circle cx="${40+x*30}" cy="${170-y*6}" r="4.5" class="dotb"/>`).join('');
+})();
+
+// ---- Punktdiagram ----
+(function(){
+  let s=7;const rnd=()=>{s=(s*9301+49297)%233280;return s/233280;};
+  const g=document.getElementById('scat');let h='';
+  [[0,1],[145,-1],[290,0]].forEach(([ox,dir])=>{
+    h+=`<rect x="${ox+5}" y="5" width="120" height="120" fill="none" class="gl2"/>`;
+    for(let i=0;i<16;i++){const t=(i+.5)/16;let x=ox+12+t*106,y;
+      if(dir===0){y=18+rnd()*96}else{const base=dir>0?115-t*96:19+t*96;y=base+(rnd()-.5)*20}
+      h+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.4" class="dotb"/>`;}
+    if(dir!==0)h+=`<line x1="${ox+12}" y1="${dir>0?115:19}" x2="${ox+118}" y2="${dir>0?19:115}" class="l2" style="stroke-width:2"/>`;
+  });
+  g.innerHTML=h;
+})();
+
+// ---- Flikar ----
+const tabs=[...document.querySelectorAll('[role=tab]')];
+function show(id,scrollTo){
+  tabs.forEach(t=>{const on=t.getAttribute('aria-controls')===id;t.setAttribute('aria-selected',on);document.getElementById(t.getAttribute('aria-controls')).hidden=!on;});
+  try{localStorage.setItem('mk1tab',id)}catch(e){}
+  if(scrollTo){const el=document.getElementById(scrollTo);if(el)el.scrollIntoView({behavior:'smooth'});}
+  else window.scrollTo({top:0});
+}
+tabs.forEach(t=>t.addEventListener('click',()=>show(t.getAttribute('aria-controls'))));
+document.querySelectorAll('#checklist a').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();const h=a.getAttribute('href').slice(1);
+  if(h==='testprov')show('testprov');else show('inlasning',h);}));
+
+// ---- Checklista ----
+const boxes=[...document.querySelectorAll('#checklist input')];
+let saved={};try{saved=JSON.parse(localStorage.getItem('mk1check')||'{}')}catch(e){}
+boxes.forEach(b=>{b.checked=!!saved[b.id];b.addEventListener('change',()=>{saved[b.id]=b.checked;try{localStorage.setItem('mk1check',JSON.stringify(saved))}catch(e){}prog();});});
+function prog(){const n=boxes.filter(b=>b.checked).length;document.getElementById('progbar').style.width=(n/boxes.length*100)+'%';document.getElementById('progtxt').textContent=`${n} av ${boxes.length} klara`+(n===boxes.length?' – snyggt!':'');}
+prog();
+
+// ---- Studieplan-bockar ----
+(function(){let sp={};try{sp=JSON.parse(localStorage.getItem('mk1plan')||'{}')}catch(e){}
+  document.querySelectorAll('.blk input').forEach(b=>{b.checked=!!sp[b.id];b.addEventListener('change',()=>{sp[b.id]=b.checked;try{localStorage.setItem('mk1plan',JSON.stringify(sp))}catch(e){}});});
+  document.querySelectorAll('.blk a').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();const h=a.getAttribute('href').slice(1);if(h==='testprov')show('testprov');else show('inlasning',h);}));})();
+
+// ---- Nedräkning ----
+(function(){const exam=new Date(2026,9,12);const now=new Date();const d=Math.ceil((exam-new Date(now.getFullYear(),now.getMonth(),now.getDate()))/864e5);
+  const el=document.getElementById('countdown');
+  el.textContent=d>1?`${d} dagar kvar till provet`:d===1?'Provet är i morgon!':d===0?'Provet är idag – lycka till!':'Provet är gjort';})();
+
+// ---- Övningar ----
+const S=(rows)=>'<div class="steps">'+rows.map(([a,b])=>`<span>${a}</span><span>${b||''}</span>`).join('')+'</div>';
+const OVN=[
+ ['1.1 Negativa tal och bråk',[
+  ['Beräkna <span class="m">−7 + (−3) − (−12)</span>','2',S([['−7 − 3 + 12','minus minus blir plus'],['= 2']])],
+  ['Beräkna <span class="m">(−3) · 4 · (−2)</span>','24',S([['(−12)·(−2)','minus gånger minus'],['= 24']])],
+  ['Beräkna <span class="m">8 − 2 · (−3)²</span>','−10',S([['(−3)² = 9','exponent först'],['8 − 2·9 = 8 − 18 = −10','sedan gånger, sist minus']])],
+  ['Beräkna <span class="m">[[3|4]] − [[5|6]]</span>','<span class="m">−[[1|12]]</span>',S([['[[9|12]] − [[10|12]]','gemensam nämnare 12'],['= −[[1|12]]']])],
+  ['Beräkna <span class="m">[[2|5]] · [[15|8]]</span>','<span class="m">[[3|4]]</span>',S([['[[30|40]]','täljare·täljare, nämnare·nämnare'],['= [[3|4]]','förkorta med 10']])],
+  ['Beräkna <span class="m">[[4|9]] ÷ [[2|3]]</span>','<span class="m">[[2|3]]</span>',S([['[[4|9]] · [[3|2]] = [[12|18]]','vänd det andra bråket'],['= [[2|3]]','förkorta med 6']])],
+  ['Beräkna <span class="m">[[9 − (−6)|7 − 2]]</span>','3',S([['[[15|5]]','räkna täljare och nämnare var för sig'],['= 3']])]
+ ]],
+ ['1.1 Algebra',[
+  ['Förenkla <span class="m">4a − 3b − (2a − 5b)</span>','<span class="m">2a + 2b</span>',S([['4a − 3b − 2a + 5b','minus framför: byt tecken'],['= 2a + 2b']])],
+  ['Förenkla <span class="m">2x(3x − 4) − x²</span>','<span class="m">5x² − 8x</span>',S([['6x² − 8x − x²','multiplicera in'],['= 5x² − 8x']])],
+  ['Beräkna <span class="m">2x² − 3x</span> då <span class="m">x = −3</span>','27',S([['2·(−3)² − 3·(−3)','parentes runt −3'],['= 18 + 9 = 27']])],
+  ['En rektangel har sidorna <span class="m">x</span> och <span class="m">x + 5</span>. Teckna ett förenklat uttryck för omkretsen och arean.','Omkrets <span class="m">4x + 10</span>, area <span class="m">x² + 5x</span>',S([['O = 2x + 2(x + 5) = 4x + 10'],['A = x(x + 5) = x² + 5x']])]
+ ]],
+ ['1.1 Ekvationer',[
+  ['Lös <span class="m">7x + 4 = 3x − 12</span>','<span class="m">x = −4</span>',S([['4x + 4 = −12','−3x'],['4x = −16','−4'],['x = −4','÷4']])],
+  ['Lös <span class="m">3(2x − 1) = 5(x + 2)</span>','<span class="m">x = 13</span>',S([['6x − 3 = 5x + 10','multiplicera in'],['x − 3 = 10','−5x'],['x = 13','+3']])],
+  ['Lös <span class="m">[[x|2]] − [[x|5]] = 6</span>','<span class="m">x = 20</span>',S([['5x − 2x = 60','multiplicera allt med 10'],['3x = 60 ⇒ x = 20']])],
+  ['Lös ut <span class="m">y</span> ur <span class="m">6x − 2y = 8</span>','<span class="m">y = 3x − 4</span>',S([['−2y = 8 − 6x','−6x'],['y = −4 + 3x','÷(−2)']])],
+  ['Fahrenheit: <span class="m">F = 1,8C + 32</span>. Lös ut C och beräkna C när F = 50.','<span class="m">C = [[F − 32|1,8]]</span>, C = 10',S([['F − 32 = 1,8C','−32'],['C = [[F − 32|1,8]] = [[18|1,8]] = 10','÷1,8']])]
+ ]],
+ ['1.2 Räta linjen',[
+  ['Bestäm ekvationen för linjen genom <span class="m">(−1, 5)</span> och <span class="m">(3, −3)</span>.','<span class="m">y = −2x + 3</span>',S([['k = [[−3 − 5|3 − (−1)]] = [[−8|4]] = −2'],['5 = −2·(−1) + m ⇒ m = 3','sätt in en punkt']])],
+  ['Ange k och m för <span class="m">3x + 2y = 8</span>.','<span class="m">k = −1,5, m = 4</span>',S([['2y = −3x + 8','−3x'],['y = −1,5x + 4','÷2']])],
+  ['Ligger punkten <span class="m">(4, 9)</span> på linjen <span class="m">y = 3x − 2</span>?','Nej',S([['y(4) = 3·4 − 2 = 10'],['10 ≠ 9, alltså inte på linjen']])],
+  ['Var skär linjen <span class="m">y = 3x − 6</span> x-axeln?','I punkten <span class="m">(2, 0)</span>',S([['På x-axeln är y = 0'],['0 = 3x − 6 ⇒ x = 2']])],
+  ['Ett gym kostar 300 kr i startavgift och 250 kr per månad. Teckna en linjär modell och beräkna kostnaden för ett år.','<span class="m">y = 250x + 300</span>, 3 300 kr',S([['k = 250 (per månad), m = 300 (start)'],['y(12) = 250·12 + 300 = 3300']])]
+ ]],
+ ['1.2 Räta linjen forts.',[
+  ['Bestäm linjen som är parallell med <span class="m">y = 4x − 1</span> och går genom <span class="m">(2, 3)</span>.','<span class="m">y = 4x − 5</span>',S([['Parallell ⇒ k = 4'],['3 = 4·2 + m ⇒ m = −5']])],
+  ['Bestäm linjen som är vinkelrät mot <span class="m">y = 2x + 1</span> och går genom <span class="m">(4, 1)</span>.','<span class="m">y = −0,5x + 3</span>',S([['2·k = −1 ⇒ k = −[[1|2]]','vinkelrät'],['1 = −[[1|2]]·4 + m ⇒ m = 3']])],
+  ['Är linjerna <span class="m">L1: 2x + y = 4</span> och <span class="m">L2: x − 2y = 6</span> vinkelräta?','Ja',S([['L1: y = −2x + 4, k₁ = −2'],['L2: y = 0,5x − 3, k₂ = 0,5'],['k₁·k₂ = −2·0,5 = −1 ✓']])]
+ ]],
+ ['1.2 Regression och korrelation',[
+  ['Vad betyder korrelationskoefficienten <span class="m">r = −0,92</span>?','Starkt negativt linjärt samband',S([['r nära −1: när x ökar minskar y, och punkterna ligger nära en rät linje.']])],
+  ['Regressionslinjen <span class="m">y = 1,8x + 12</span> visar provpoäng y mot antal timmars plugg x. Tolka k och m, och uppskatta poängen efter 10 timmar.','k: +1,8 poäng per timme. m: 12 poäng utan plugg. 30 poäng.',S([['y(10) = 1,8·10 + 12 = 30']])],
+  ['Varför är det osäkert att använda linjen ovan för x = 40 timmar?','Extrapolation',S([['40 timmar ligger troligen utanför mätområdet. Linjen ger 84 poäng, kanske mer än provets maxpoäng. Sambandet behöver inte vara linjärt där.']])],
+  ['Sambandet mellan skostorlek och läsförmåga hos barn 6–12 år har r = 0,8. Gör stora fötter att man läser bättre?','Nej',S([['Hög korrelation men inget orsakssamband. Ålder påverkar både fotstorlek och läsförmåga.']])]
+ ]],
+ ['1.3 Linjära ekvationssystem',[
+  ['Är <span class="m">(2, −1)</span> en lösning till <span class="m">x + y = 1</span> och <span class="m">3x − y = 7</span>?','Ja',S([['VL₁ = 2 + (−1) = 1 = HL ✓'],['VL₂ = 6 − (−1) = 7 = HL ✓']])],
+  ['Lös grafiskt eller algebraiskt: <span class="m">y = x + 4</span> och <span class="m">y = −2x + 1</span>','<span class="m">x = −1, y = 3</span>',S([['x + 4 = −2x + 1','sätt y = y'],['3x = −3 ⇒ x = −1'],['y = −1 + 4 = 3']])],
+  ['Skriv om <span class="m">2y − x = 8</span> och <span class="m">y + x = 10</span> på formen y = kx + m och lös systemet.','<span class="m">x = 4, y = 6</span>',S([['y = 0,5x + 4 och y = −x + 10'],['0,5x + 4 = −x + 10 ⇒ 1,5x = 6 ⇒ x = 4'],['y = −4 + 10 = 6']])]
+ ]],
+ ['1.3 Substitutionsmetoden',[
+  ['<span class="m">x = 2y + 1</span> och <span class="m">3x − 4y = 9</span>','<span class="m">x = 7, y = 3</span>',S([['3(2y + 1) − 4y = 9','byt x'],['2y + 3 = 9 ⇒ y = 3'],['x = 2·3 + 1 = 7']])],
+  ['<span class="m">x + y = 5</span> och <span class="m">2x + 3y = 13</span>','<span class="m">x = 2, y = 3</span>',S([['y = 5 − x','lös ut y'],['2x + 3(5 − x) = 13'],['15 − x = 13 ⇒ x = 2, y = 3']])],
+  ['<span class="m">y = 2x</span> och <span class="m">x + y = 12</span>','<span class="m">x = 4, y = 8</span>',S([['x + 2x = 12','byt y'],['3x = 12 ⇒ x = 4'],['y = 2·4 = 8']])]
+ ]],
+ ['1.3 Additionsmetoden',[
+  ['<span class="m">x + y = 10</span> och <span class="m">x − y = 4</span>','<span class="m">x = 7, y = 3</span>',S([['2x = 14','addera'],['x = 7, y = 3']])],
+  ['<span class="m">4x + 3y = 6</span> och <span class="m">2x − 3y = 12</span>','<span class="m">x = 3, y = −2</span>',S([['6x = 18 ⇒ x = 3','addera'],['12 + 3y = 6 ⇒ y = −2']])],
+  ['<span class="m">3x + 4y = 10</span> och <span class="m">2x + 5y = 9</span>','<span class="m">x = 2, y = 1</span>',S([['6x + 8y = 20','(1)·2'],['−6x − 15y = −27','(2)·(−3)'],['−7y = −7 ⇒ y = 1','addera'],['3x + 4 = 10 ⇒ x = 2']])]
+ ]],
+ ['1.3 Problemlösning',[
+  ['Två tal har summan 50 och differensen 14. Vilka är talen?','32 och 18',S([['x + y = 50, x − y = 14'],['2x = 64 ⇒ x = 32, y = 18']])],
+  ['3 kaffe och 2 bullar kostar 120 kr. 1 kaffe och 3 bullar kostar 75 kr. Vad kostar en kaffe och en bulle?','Kaffe 30 kr, bulle 15 kr',S([['x = 75 − 3y','ur ekv 2'],['3(75 − 3y) + 2y = 120 ⇒ 225 − 7y = 120'],['y = 15, x = 30']])],
+  ['I en spargris finns 20 mynt, femkronor och tiokronor, värda 140 kr. Hur många av varje?','12 femkronor, 8 tiokronor',S([['x + y = 20, 5x + 10y = 140'],['5x + 10(20 − x) = 140 ⇒ 200 − 5x = 140'],['x = 12, y = 8']])],
+  ['Ett företag har fasta kostnader 4 000 kr och tillverkar varor för 60 kr/st som säljs för 140 kr/st. Hur många måste säljas för att gå med vinst?','Minst 51 st',S([['K = 4000 + 60x, I = 140x'],['K = I ⇒ 80x = 4000 ⇒ x = 50','jämnt ut vid 50'],['Vinst från 51 st']])],
+  ['På en parkering står 240 bilar. Antalet personbilar är 30 fler än dubbla antalet lastbilar. Hur många personbilar?','170 personbilar',S([['x + y = 240, x = 2y + 30'],['2y + 30 + y = 240 ⇒ y = 70'],['x = 170']])]
+ ]],
+ ['1.3 Speciella ekvationssystem',[
+  ['<span class="m">y = 3x − 2</span> och <span class="m">6x − 2y = 4</span>','Oändligt många lösningar',S([['6x − 2(3x − 2) = 4'],['4 = 4, alltid sant','samma linje']])],
+  ['<span class="m">2x + y = 5</span> och <span class="m">4x + 2y = 7</span>','Ingen lösning',S([['Ekv 1 · 2: 4x + 2y = 10'],['Men ekv 2 säger 4x + 2y = 7. 10 ≠ 7','parallella linjer']])],
+  ['Bestäm a så att <span class="m">y = ax + 1</span> och <span class="m">y = 4x − 3</span> saknar lösning.','<span class="m">a = 4</span>',S([['Ingen lösning ⇒ samma k men olika m'],['a = 4 (m är 1 och −3, olika ✓)']])]
+ ]],
+ ['1.4 Parentesmultiplikation',[
+  ['Utveckla <span class="m">(x + 2)(x + 6)</span>','<span class="m">x² + 8x + 12</span>',S([['x² + 6x + 2x + 12'],['= x² + 8x + 12']])],
+  ['Utveckla <span class="m">(3x − 2)(x + 5)</span>','<span class="m">3x² + 13x − 10</span>',S([['3x² + 15x − 2x − 10'],['= 3x² + 13x − 10']])],
+  ['Förenkla <span class="m">x(x − 3) − (x + 1)(x − 2)</span>','<span class="m">−2x + 2</span>',S([['x² − 3x − (x² − x − 2)','parentes kvar!'],['= x² − 3x − x² + x + 2 = −2x + 2']])],
+  ['Lös <span class="m">(x − 1)(2x + 4) = x(2x + 1)</span>','<span class="m">x = 4</span>',S([['2x² + 2x − 4 = 2x² + x'],['2x − 4 = x','−2x²'],['x = 4']])],
+  ['En kvadrat med sidan x har lika stor area som en rektangel med sidorna <span class="m">x + 3</span> och <span class="m">x − 1</span>. Bestäm x.','<span class="m">x = 1,5</span>',S([['x² = (x + 3)(x − 1) = x² + 2x − 3'],['0 = 2x − 3 ⇒ x = 1,5']])]
+ ]],
+ ['1.4 Konjugat- och kvadreringsreglerna',[
+  ['Utveckla <span class="m">(x + 6)²</span>','<span class="m">x² + 12x + 36</span>',S([['x² + 2·x·6 + 6²']])],
+  ['Utveckla <span class="m">(2a − 5)²</span>','<span class="m">4a² − 20a + 25</span>',S([['(2a)² − 2·2a·5 + 5²']])],
+  ['Utveckla <span class="m">(4x + 3)(4x − 3)</span>','<span class="m">16x² − 9</span>',S([['(4x)² − 3²','konjugat']])],
+  ['Beräkna i huvudet <span class="m">102²</span> och <span class="m">31 · 29</span>','10 404 och 899',S([['(100 + 2)² = 10000 + 400 + 4'],['(30 + 1)(30 − 1) = 900 − 1']])],
+  ['Förenkla <span class="m">(x + 3)² − (x − 3)²</span>','<span class="m">12x</span>',S([['x² + 6x + 9 − (x² − 6x + 9)'],['= 12x']])]
+ ]],
+ ['1.4 Faktorisering',[
+  ['Faktorisera <span class="m">12x² − 8x</span>','<span class="m">4x(3x − 2)</span>',S([['Gemensamt: 4x']])],
+  ['Faktorisera <span class="m">x² − 64</span>','<span class="m">(x + 8)(x − 8)</span>',S([['x² − 8²','konjugat baklänges']])],
+  ['Faktorisera <span class="m">x² − 14x + 49</span>','<span class="m">(x − 7)²</span>',S([['x² − 2·x·7 + 7²','2:a kvadr. baklänges']])],
+  ['Faktorisera <span class="m">3x² − 27</span>','<span class="m">3(x + 3)(x − 3)</span>',S([['3(x² − 9)','bryt ut 3 först'],['= 3(x + 3)(x − 3)']])],
+  ['Faktorisera <span class="m">y² − 4x²</span>','<span class="m">(y + 2x)(y − 2x)</span>',S([['y² − (2x)²']])]
+ ]]
+];
+(function(){
+  const root=document.getElementById('ovnList');let n=0,h='';
+  OVN.forEach(([title,qs])=>{h+=`<h3>${title}</h3>`;qs.forEach(([q,a,s])=>{n++;
+    h+=`<div class="q"><div class="qt"><span class="n">${n}</span><div>${FR(q)}</div></div>
+      <div class="row"><button class="btn" data-t="a">Visa svar</button><button class="btn" data-t="s">Visa lösning</button></div>
+      <div class="ans" hidden><b>Svar:</b> ${FR(a)}</div><div class="sol" hidden>${FR(s)}</div></div>`;});});
+  root.innerHTML=h;
+  root.addEventListener('click',e=>{const b=e.target.closest('button[data-t]');if(!b)return;const q=b.closest('.q');
+    const el=q.querySelector(b.dataset.t==='a'?'.ans':'.sol');el.hidden=!el.hidden;
+    b.textContent=(el.hidden?'Visa ':'Dölj ')+(b.dataset.t==='a'?'svar':'lösning');});
+  document.getElementById('showAllAns').onclick=()=>root.querySelectorAll('.ans').forEach(e=>e.hidden=false);
+  document.getElementById('hideAllAns').onclick=()=>root.querySelectorAll('.ans,.sol').forEach(e=>e.hidden=true);
+})();
+
+// ---- Quiz ----
+const QUIZ=[
+ ['<span class="m">−5 − (−8) = ?</span>',['3','−13','−3','13'],'−5 + 8 = 3. Två minus i rad blir plus.'],
+ ['<span class="m">(−2)⁴ = ?</span>',['16','−16','−8','8'],'Jämnt antal minustecken ger plus: (−2)(−2)(−2)(−2) = 16.'],
+ ['<span class="m">5 + 3 · 2 = ?</span>',['11','16','13','10'],'Multiplikation före addition: 5 + 6 = 11.'],
+ ['<span class="m">[[1|2]] + [[1|3]] = ?</span>',['[[5|6]]','[[2|5]]','[[1|6]]','[[2|6]]'],'Gemensam nämnare: [[3|6]] + [[2|6]] = [[5|6]].'],
+ ['<span class="m">[[2|3]] ÷ [[4|9]] = ?</span>',['[[3|2]]','[[8|27]]','[[2|3]]','[[8|12]]'],'Vänd och multiplicera: [[2|3]]·[[9|4]] = [[18|12]] = [[3|2]].'],
+ ['Lös <span class="m">5x − 2 = 3x + 8</span>',['x = 5','x = 3','x = 0,6','x = 10'],'2x = 10 ⇒ x = 5.'],
+ ['Vad är k för linjen genom (0, 2) och (3, 8)?',['2','3','6','[[1|2]]'],'k = [[8 − 2|3 − 0]] = 2.'],
+ ['Vad är m i <span class="m">y = −3x + 4</span>?',['4','−3','3','−4'],'m är konstanttermen, där linjen skär y-axeln.'],
+ ['Vilken linje är parallell med <span class="m">y = 2x − 5</span>?',['y = 2x + 7','y = −2x − 5','y = [[1|2]]x − 5','y = −[[1|2]]x + 2'],'Parallella linjer har samma k.'],
+ ['En linje är vinkelrät mot <span class="m">y = 3x + 1</span>. Vilket k har den?',['−[[1|3]]','−3','[[1|3]]','3'],'k₁·k₂ = −1 ⇒ 3·k = −1 ⇒ k = −[[1|3]].'],
+ ['Linjen <span class="m">x = 3</span> är …',['lodrät och saknar k','vågrät med k = 0','lutande med k = 3','ingen linje alls'],'Alla punkter har x = 3, alltså en lodrät linje. Den är ingen funktion.'],
+ ['<span class="m">r = 0,05</span> betyder …',['i princip inget linjärt samband','starkt positivt samband','starkt negativt samband','att linjen har k = 0,05'],'r nära 0 betyder att punkterna inte följer någon rät linje.'],
+ ['Att använda en regressionslinje långt utanför mätvärdena kallas …',['extrapolation','interpolation','korrelation','substitution'],'Extrapolation är osäker eftersom vi inte vet om sambandet håller där.'],
+ ['Lösningen till ett ekvationssystem syns i grafen som …',['skärningspunkten','där linjerna skär y-axeln','lutningen','där linjerna skär x-axeln'],'Skärningspunkten ligger på båda linjerna och stämmer i båda ekvationerna.'],
+ ['Additionsmetoden på <span class="m">2x + y = 7</span> och <span class="m">3x − y = 8</span> ger x = ?',['3','1','5','15'],'Addera: 5x = 15 ⇒ x = 3 (och y = 1).'],
+ ['Två linjer med samma k men olika m ger …',['ingen lösning','en lösning','oändligt många lösningar','två lösningar'],'De är parallella och skär aldrig varandra.'],
+ ['När du löser ett system får du <span class="m">0 = 0</span>. Det betyder …',['oändligt många lösningar','ingen lösning','x = 0 och y = 0','du har räknat fel'],'Alltid sant ⇒ ekvationerna beskriver samma linje.'],
+ ['<span class="m">(x − 4)² = ?</span>',['x² − 8x + 16','x² − 16','x² + 16','x² − 8x − 16'],'Andra kvadreringsregeln: a² − 2ab + b².'],
+ ['<span class="m">(x + 5)(x − 5) = ?</span>',['x² − 25','x² + 25','x² − 10x − 25','x² + 10x − 25'],'Konjugatregeln: a² − b².'],
+ ['<span class="m">(x + 2)(x − 7) = ?</span>',['x² − 5x − 14','x² + 5x − 14','x² − 9x − 14','x² − 14'],'x² − 7x + 2x − 14 = x² − 5x − 14.'],
+ ['Faktorisera <span class="m">x² − 9</span>',['(x + 3)(x − 3)','(x − 3)²','(x + 9)(x − 1)','x(x − 9)'],'Konjugatregeln baklänges: x² − 3².'],
+ ['Faktorisera <span class="m">5x² + 10x</span>',['5x(x + 2)','5(x² + 10x)','x(5x + 2)','5x(x + 10)'],'Bryt ut den gemensamma faktorn 5x.'],
+ ['Faktorisera <span class="m">x² + 6x + 9</span>',['(x + 3)²','(x + 3)(x − 3)','(x + 9)(x + 1)','(x + 6)²'],'x² + 2·x·3 + 3² = (x + 3)².']
+];
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+let qs={right:0,done:0};
+function renderQuiz(mix){
+  qs={right:0,done:0};const list=mix?shuffle(QUIZ):QUIZ;const root=document.getElementById('quizList');
+  root.innerHTML=list.map(([q,opts,why],i)=>{const order=mix?shuffle(opts.map((o,k)=>[o,k])):opts.map((o,k)=>[o,k]);
+    return `<div class="qq"><div class="qt" style="display:flex;gap:10px"><span class="n" style="font:800 .9rem var(--f-display);color:var(--blue);min-width:28px">${i+1}</span><div>${FR(q)}</div></div>
+    <div class="opts">${order.map(([o,k])=>`<button class="opt" data-ok="${k===0}">${FR(o)}</button>`).join('')}</div>
+    <p class="why" hidden data-why="${encodeURIComponent(why)}"></p></div>`;}).join('');
+  updScore();
+}
+document.getElementById('quizList').addEventListener('click',e=>{const b=e.target.closest('.opt');if(!b||b.disabled)return;const box=b.closest('.qq');
+  const ok=b.dataset.ok==='true';box.querySelectorAll('.opt').forEach(o=>{o.disabled=true;if(o.dataset.ok==='true')o.classList.add('right');});
+  if(!ok)b.classList.add('wrong');qs.done++;if(ok)qs.right++;
+  const w=box.querySelector('.why');w.innerHTML=(ok?'<b class="ok">Rätt! </b>':'<b class="no">Inte riktigt. </b>')+FR(decodeURIComponent(w.dataset.why));w.hidden=false;updScore();});
+function updScore(){document.getElementById('quizScore').textContent=`${qs.right} / ${qs.done} rätt`+(qs.done===QUIZ.length?` av ${QUIZ.length}`:'');}
+document.getElementById('quizReset').onclick=()=>renderQuiz(true);
+renderQuiz(false);
+
+// ---- Testprov ----
+const TEST=[
+ ['E',3,'Beräkna utan räknare<br>a) <span class="m">−6 + (−4) − (−9)</span> &nbsp; b) <span class="m">[[2|3]] · [[9|4]]</span> &nbsp; c) <span class="m">(−3)² − 2 · (−5)</span>',
+   'a) <span class="m">−1</span> &nbsp; b) <span class="m">[[3|2]]</span> &nbsp; c) <span class="m">19</span>',
+   S([['a) −6 − 4 + 9 = −1'],['b) [[18|12]] = [[3|2]]'],['c) 9 + 10 = 19','exponent och gånger först']])],
+ ['E',2,'Lös ekvationen <span class="m">4(x − 3) = 2x + 6</span>',
+   '<span class="m">x = 9</span>',S([['4x − 12 = 2x + 6'],['2x = 18 ⇒ x = 9'],['Kontroll: VL = 4·6 = 24, HL = 18 + 6 = 24 ✓']])],
+ ['E',2,'Bestäm ekvationen för den räta linje som går genom punkterna <span class="m">(2, 1)</span> och <span class="m">(6, 9)</span>.',
+   '<span class="m">y = 2x − 3</span>',S([['k = [[9 − 1|6 − 2]] = [[8|4]] = 2'],['1 = 2·2 + m ⇒ m = −3']])],
+ ['E',2,'Lös ekvationssystemet<br><span class="m">{ y = 2x − 1</span><br><span class="m">{ x + y = 8</span>',
+   '<span class="m">x = 3, y = 5</span>',S([['x + (2x − 1) = 8','substitution'],['3x = 9 ⇒ x = 3'],['y = 2·3 − 1 = 5']])],
+ ['E',3,'Utveckla och förenkla<br>a) <span class="m">(x + 5)²</span> &nbsp; b) <span class="m">(x − 2)(x + 2)</span> &nbsp; c) <span class="m">(x + 3)(x − 7)</span>',
+   'a) <span class="m">x² + 10x + 25</span> &nbsp; b) <span class="m">x² − 4</span> &nbsp; c) <span class="m">x² − 4x − 21</span>',
+   S([['a) 1:a kvadreringsregeln'],['b) konjugatregeln'],['c) x² − 7x + 3x − 21']])],
+ ['E',2,'Faktorisera a) <span class="m">8x² + 12x</span> &nbsp; b) <span class="m">x² − 49</span>',
+   'a) <span class="m">4x(2x + 3)</span> &nbsp; b) <span class="m">(x + 7)(x − 7)</span>',S([['a) bryt ut 4x'],['b) konjugatregeln baklänges']])],
+ ['E',2,'I ett diagram har punkterna korrelationskoefficienten <span class="m">r = −0,9</span>. Beskriv sambandet med ord.',
+   'Starkt negativt linjärt samband',S([['När x ökar minskar y, och punkterna ligger nära en rät linje.']])],
+ ['C',3,'Lös med additionsmetoden<br><span class="m">{ 3x − 2y = 4</span><br><span class="m">{ 5x + 3y = 13</span>',
+   '<span class="m">x = 2, y = 1</span>',S([['9x − 6y = 12','(1)·3'],['10x + 6y = 26','(2)·2'],['19x = 38 ⇒ x = 2','addera'],['6 − 2y = 4 ⇒ y = 1'],['Kontroll i (2): 10 + 3 = 13 ✓']])],
+ ['C',3,'En linje är vinkelrät mot <span class="m">2x + y = 3</span> och går genom punkten <span class="m">(4, 5)</span>. Bestäm linjens ekvation.',
+   '<span class="m">y = 0,5x + 3</span>',S([['2x + y = 3 ⇒ y = −2x + 3, k₁ = −2'],['−2·k₂ = −1 ⇒ k₂ = [[1|2]]'],['5 = [[1|2]]·4 + m ⇒ m = 3']])],
+ ['C',2,'Förenkla så långt som möjligt <span class="m">(2x − 3)² − (2x + 3)(2x − 3)</span>',
+   '<span class="m">−12x + 18</span>',S([['4x² − 12x + 9 − (4x² − 9)','parentes kvar!'],['= 4x² − 12x + 9 − 4x² + 9'],['= −12x + 18']])],
+ ['C',3,'En klass går på teater. Elevbiljetter kostar 90 kr och vuxenbiljetter 140 kr. Totalt köptes 28 biljetter för 2 670 kr. Hur många vuxna följde med?',
+   '3 vuxna (och 25 elever)',S([['x = elever, y = vuxna'],['x + y = 28, 90x + 140y = 2670'],['90(28 − y) + 140y = 2670 ⇒ 2520 + 50y = 2670'],['y = 3, x = 25'],['Kontroll: 2250 + 420 = 2670 ✓']])],
+ ['C',3,'Regressionslinjen <span class="m">y = 0,6x + 2,1</span> beskriver trötthet y (skala 1–10) mot antal timmar med mobilen på kvällen x.<br>a) Tolka 0,6 i sammanhanget. &nbsp; b) Uppskatta y för x = 4. &nbsp; c) r = 0,85. Kan man säga att mobilen orsakar trötthet?',
+   'a) +0,6 trötthetsenheter per timme &nbsp; b) 4,5 &nbsp; c) Nej, inte säkert',
+   S([['a) k = 0,6: tröttheten ökar 0,6 enheter för varje extra timme'],['b) 0,6·4 + 2,1 = 4,5'],['c) Starkt samband men korrelation visar inte orsak. Det kan finnas andra faktorer, t.ex. sen läggdags.']])]
+];
+(function(){
+  const root=document.getElementById('testList');
+  root.innerHTML=TEST.map(([lv,p,q,a,s],i)=>`<div class="task" data-lv="${lv}" data-p="${p}">
+    <header><span class="lvl ${lv}">${lv}</span><h3>Uppgift ${i+1}</h3><span class="p">${p} p</span></header>
+    <div>${FR(q)}</div>
+    <div class="row" style="display:flex;gap:12px;flex-wrap:wrap;align-items:center"><button class="btn" data-f>Visa facit</button>
+      <label class="self"><input type="checkbox" id="tp${i}"> Jag fick rätt</label></div>
+    <div class="facit" hidden><div class="ans"><b>Svar:</b> ${FR(a)}</div><div class="sol">${FR(s)}</div></div></div>`).join('');
+  root.addEventListener('click',e=>{const b=e.target.closest('[data-f]');if(!b)return;const f=b.closest('.task').querySelector('.facit');f.hidden=!f.hidden;b.textContent=f.hidden?'Visa facit':'Dölj facit';});
+  root.addEventListener('change',tally);
+  document.getElementById('showFacit').onclick=()=>root.querySelectorAll('.task').forEach(t=>{t.querySelector('.facit').hidden=false;t.querySelector('[data-f]').textContent='Dölj facit';});
+  document.getElementById('hideFacit').onclick=()=>root.querySelectorAll('.task').forEach(t=>{t.querySelector('.facit').hidden=true;t.querySelector('[data-f]').textContent='Visa facit';});
+  tally();
+})();
+function tally(){
+  const tot={E:0,C:0},got={E:0,C:0};
+  document.querySelectorAll('#testList .task').forEach(t=>{const l=t.dataset.lv,p=+t.dataset.p;tot[l]+=p;if(t.querySelector('input').checked)got[l]+=p;});
+  const sum=got.E+got.C,max=tot.E+tot.C;
+  let g='Bocka i uppgifterna du klarade';
+  if(sum>0){g = (got.E>=tot.E*0.75 && got.C>=tot.C*0.6)?'C-nivå – bra jobbat!':(got.E>=tot.E*0.6)?'E-nivå – godkänt':'Repetera E-uppgifterna';}
+  document.getElementById('tally').innerHTML=`<div><span class="muted">E-poäng</span><b>${got.E} / ${tot.E}</b></div><div><span class="muted">C-poäng</span><b>${got.C} / ${tot.C}</b></div><div><span class="muted">Totalt</span><b>${sum} / ${max}</b></div><span class="grade">${g}</span>`;
+}
+
+// ---- Starta på sparad flik / ankare ----
+(function(){const h=location.hash.slice(1);let t='oversikt';try{t=localStorage.getItem('mk1tab')||t}catch(e){}
+  if(['oversikt','inlasning','ovningar','quiz','testprov'].includes(h))t=h;show(t);
+  if(/^a\d+$/.test(h))show('inlasning',h);})();
+</script>
+</body>
+</html>
